@@ -3,23 +3,23 @@ import React, { useEffect } from "react";
 const Clima = ({ clima }) => {
   const imagenClima = (id) => {
     if (id < 300) {
-      return "/tormenta.png";
+      return "/rh-nuevo/tormenta.png";
     } else if (id < 500) {
-      return "/llovizna.png";
+      return "/rh-nuevo/llovizna.png";
     } else if (id < 520) {
-      return "/lluvia.png";
+      return "/rh-nuevo/lluvia.png";
     } else if (id < 600) {
-      return "/lluvia nublado.png";
+      return "/rh-nuevo/lluvia nublado.png";
     } else if (id < 700) {
-      return "/nieve.png";
+      return "/rh-nuevo/nieve.png";
     } else if (id < 800) {
-      return "/neblina.png";
+      return "/rh-nuevo/neblina.png";
     } else if (id == 800) {
-      return "/despejado.png";
+      return "/rh-nuevo/despejado.png";
     } else if (id == 801) {
-      return "/nublado.png";
+      return "/rh-nuevo/nublado.png";
     } else if (id < 900) {
-      return "/muy nublado.png";
+      return "/rh-nuevo/muy nublado.png";
     }
   };
 

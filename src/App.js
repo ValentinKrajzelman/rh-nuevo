@@ -9,7 +9,7 @@ function App() {
     <div className="flex">
       <Navbar/>
       <Routes>
-        <Route path="/rh-nuevo/inicio/*" element={<Inicio/>}> </Route>
+        <Route path="/rh-nuevo/*" element={<Inicio/>}> </Route>
         <Route path="/rh-nuevo/dashboard/*" element={<Inicio/>}> </Route>
       </Routes>
     </div>

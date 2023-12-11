@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Route, Routes, useLocation } from "react-router-dom";
 import Modal from "./modal";
 import Clima from "./clima";
 import { fetchCurrentClima } from "../api/clima";
@@ -13,6 +14,21 @@ const Inicio = () => {
   const [clima, setClima] = useState([]);
   const [novedades, setNovedades] = useState([]);
   const [cultura, setCultura] = useState([]);
+  const [user, setUser] = useState({});
+
+  let location = useLocation();
+
+  useEffect(() => {
+    let urlParams = new URLSearchParams(window.location.search);
+    let nombre = urlParams.get("a");
+    let apellido = urlParams.get("b");
+    let legajo = urlParams.get("c");
+    setUser({
+      nombre: nombre,
+      apellido: apellido,
+      legajo: legajo
+    });
+  }, [location]);
 
   const currentClima = async () => {
     await fetchCurrentClima().then((res) => {
@@ -31,8 +47,9 @@ const Inicio = () => {
   };
 
   const popularCultura = async () => {
-    fetch("https://www.cultura.gob.ar/api/v2.0/convocatorias/?limit=3")
+    fetch("https://www.cultura.gob.ar/api/v2.0/convocatorias/?limit=3",{method:'GET',credentials: 'include', headers:{'Content-Type':'application/json'}})
       .then((res) => {
+        console.log(res);
         return res.json();
       })
       .then((res) => {
@@ -51,7 +68,7 @@ const Inicio = () => {
 
   return (
     <div className="flex flex-col p-4 px-8 w-full">
-      <div className="flex justify-center text-3xl bold mb-14"><img className="w-[20rem]" src="/banner-mercomax.png"></img></div>
+      <div className="flex justify-center text-3xl bold mb-14"><img className="w-[20rem]" src="/rh-nuevo/banner-mercomax.png"></img></div>
       {/* primera fila */}
       <div className="flex w-full h-[15rem] justify-center items-center">
         <div className="w-[40%] flex flex-col border-2 m-6 border-black rounded-3xl h-full">
@@ -66,7 +83,8 @@ const Inicio = () => {
           <div className="text-2xl p-3 bold h-12">Noticias</div>
           {/* <div className="w-full grow m-2 ">a</div> */}
           <div className="h-[10rem] p-3">
-            <Cultura CulturaArray={cultura}/>
+            Proximamente
+            {/* <Cultura CulturaArray={cultura}/> */}
           </div>
         </div>
       </div>
