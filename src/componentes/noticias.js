@@ -22,7 +22,7 @@ const Cultura = ({ CulturaArray }) => {
               </div>
               <div className="flex justify-between items-center flex-col w-[5rem] h-full overflow-hidden ">
                 <img src={itemCultura.imagen}></img>
-                <a href={itemCultura.link} target="_blank" ><img className="w-[1.5rem]" src="/nuevo-icon (11).png"></img></a>
+                <a href={itemCultura.link} target="_blank" ><img className="w-[1.5rem]" src="/rh-nuevo/nuevo-icon (11).png"></img></a>
               </div>
             </div>
           );

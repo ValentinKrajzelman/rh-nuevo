@@ -99,7 +99,7 @@ const Navbar = () => {
                 <div className="pl-6">Biblioteca BD</div>
               </a>
               <a
-                href="https://mmxapp2.mercomaxsa.com.ar/rh/themes/carga_novedades.php"
+                href={"https://mmxapp2.mercomaxsa.com.ar/rh-nuevo/dashboard/?a="+user.nombre+"&b="+user.apellido+"&c="+user.legajo}
                 className="w-full  p-1 flex"
               >
                 <img
