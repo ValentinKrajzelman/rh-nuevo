@@ -7,6 +7,8 @@ import { fetchCurrentNoticias } from "../api/noticias";
 import { fetchCurrentNovedades } from "../api/novedades";
 import Cultura from "./noticias";
 
+import axios from 'axios';
+
 // import Modal from "../components/modal";
 
 const Inicio = () => {
@@ -47,13 +49,11 @@ const Inicio = () => {
   };
 
   const popularCultura = async () => {
-    fetch("https://www.cultura.gob.ar/api/v2.0/convocatorias/?limit=3",{method:'GET', headers:{ 'Content-Type':'application/json'}})
+    console.log('algo');
+    await axios.get('https://mmxapp2.mercomaxsa.com.ar/node/cultura/')
       .then((res) => {
-        console.log(res);
-        return res.json();
-      })
-      .then((res) => {
-        setCultura(res.results);
+        // console.log("esto",res);
+        setCultura(res.data.results);
       });
   };
 
@@ -68,32 +68,31 @@ const Inicio = () => {
 
   return (
     <div className="flex flex-col p-4 px-8 w-full">
-      <div></div>
       <div className="flex justify-center text-3xl bold mb-14"><img className="w-[20rem]" src="/rh-nuevo/banner-mercomax.png"></img></div>
       {/* primera fila */}
-      <div className="flex w-full h-[15rem] justify-center items-center">
-        <div className="w-[40%] flex flex-col border-2 m-6 border-black rounded-3xl h-full">
+      <div className="flex flex-col md:flex-row w-full md:h-[15rem] justify-center items-center">
+        <div className="w-[15rem] md:w-[28rem] flex flex-col border-2 m-6 border-black rounded-3xl h-full">
           {/* <div className="flex text-2xl justify-center items-center align-middle grow"> */}
-          <div className="text-2xl p-3 bold h-12">Clima</div>
+          <div className="text-2xl p-3 bold md:h-12">Clima</div>
           <div className="p-3">
             <Clima clima={clima} />
           </div>
           {/* </div> */}
         </div>
-        <div className="w-[40%] flex flex-col border-2 m-6 ml-8 border-black rounded-3xl h-full">
-          <div className="text-2xl p-3 bold h-12">Noticias</div>
+        <div className="w-[15rem] md:w-[28rem] flex flex-col border-2 m-6 ml-8 border-black rounded-3xl h-full">
+          <div className="text-2xl p-3 bold md:h-12">Noticias</div>
           {/* <div className="w-full grow m-2 ">a</div> */}
-          <div className="h-[10rem] p-3">
+          <div className="md:h-[10rem] p-3">
             <Cultura CulturaArray={cultura}/>
           </div>
         </div>
       </div>
       {/* segunda fila */}
-      <div className="flex w-full h-[15rem] justify-center items-center mt-14">
-        <div className="w-[40%] flex flex-col m-6 border-2  border-black rounded-3xl h-full">
+      <div className="flex flex-col md:flex-row w-full md:h-[15rem] justify-center items-center mt-14">
+        <div className="w-[15rem] md:w-[28rem] flex flex-col m-6 border-2  border-black rounded-3xl h-full">
           <div className="text-2xl p-3 bold h-14">Anuncios</div>
           <div className="flex flex-col pb-2 w-full items-center grow">
-            <div className="flex noScrollbar flex-col items-center border-2 overflow-y-scroll border-black bg-[#FFF9BA] h-[0.1rem]  w-[95%] grow rounded-3xl">
+            <div className="flex noScrollbar flex-col items-center border-2 overflow-y-scroll border-black bg-[#FFF9BA] h-[10rem] w-[95%] grow rounded-3xl">
               {novedades.map((anuncio) => {
                 return (
                   <div
@@ -115,13 +114,11 @@ const Inicio = () => {
             </div>
           </div>
         </div>
-        <div className="w-[40%] flex flex-col  m-6 border-black rounded-3xl h-full">
-          {/* <div className="text-2xl p-3 bold h-14">Video introductorio</div> */}
+        <div className="hidden w-[15rem] md:w-[28rem] md:flex flex-col m-6 border-black rounded-3xl">
           <video
             className="rounded-3xl"
             src="https://mmxapp2.mercomaxsa.com.ar/files/Mercomax-Reglamento.webm"
             controls
-            // style={{ width: "390px", height: "219px" }}
             style={{ width: "443px", height: "250px" }}
           ></video>
         </div>

@@ -106,7 +106,7 @@ const Modal = ({ noticias }) => {
                       </button>
                     </div>
 
-                    <div className="w-[40rem] h-[34rem] flex justify-center items-center">
+                    <div className="md:w-[40rem] md:h-[34rem] flex justify-center items-center">
                       {actual.w > actual.h ? (
                         <img
                           className="w-[90%] h-auto"

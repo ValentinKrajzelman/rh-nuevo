@@ -35,7 +35,7 @@ const Navbar = () => {
         </button>
 
         <div
-          className={`min-h-screen transition-all bg-[#B7B9BD] ${
+          className={`h-screen overflow-y-scroll transition-all noScrollbar bg-[#B7B9BD] ${
             estado ? "" : "hidden"
           }`}
         >
