@@ -3,11 +3,11 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import Modal from "./modal";
 import Clima from "./clima";
 import { fetchCurrentClima } from "../api/clima";
-import { fetchCurrentNoticias } from "../api/noticias";
-import { fetchCurrentNovedades } from "../api/novedades";
+import { fetchCurrentNoticias, fetchDeleteNoticias } from "../api/noticias";
+import { fetchCurrentNovedades, fetchDeleteNovedades } from "../api/novedades";
 import Cultura from "./noticias";
 
-import axios from 'axios';
+import axios from "axios";
 
 // import Modal from "../components/modal";
 
@@ -17,6 +17,7 @@ const Inicio = () => {
   const [novedades, setNovedades] = useState([]);
   const [cultura, setCultura] = useState([]);
   const [user, setUser] = useState({});
+  const [RH, setRH] = useState(false);
 
   let location = useLocation();
 
@@ -28,8 +29,17 @@ const Inicio = () => {
     setUser({
       nombre: nombre,
       apellido: apellido,
-      legajo: legajo
+      legajo: legajo,
     });
+    if (
+      legajo == "0003" ||
+      legajo == "0868" ||
+      legajo == "0046" ||
+      legajo == "0500" ||
+      legajo == "0926"
+    ) {
+      setRH(true);
+    }
   }, [location]);
 
   const currentClima = async () => {
@@ -48,9 +58,25 @@ const Inicio = () => {
     });
   };
 
+  const borrarAnuncio = async (anuncio) => {
+    await fetchDeleteNovedades(anuncio).then((res) => {
+      console.log(res);
+      currentNovedades();
+    });
+  };
+  
+  const borrarNoticia = async (noticia) => {
+    await fetchDeleteNoticias(noticia).then((res) => {
+      console.log(res);
+      currentNovedades();
+    });
+  };
+  
+
   const popularCultura = async () => {
-    console.log('algo');
-    await axios.get('https://mmxapp2.mercomaxsa.com.ar/node/cultura/')
+    console.log("algo");
+    await axios
+      .get("https://mmxapp2.mercomaxsa.com.ar/node/cultura/")
       .then((res) => {
         // console.log("esto",res);
         setCultura(res.data.results);
@@ -68,7 +94,9 @@ const Inicio = () => {
 
   return (
     <div className="flex flex-col p-4 px-8 w-full">
-      <div className="flex justify-center text-3xl bold mb-14"><img className="w-[20rem]" src="/rh-nuevo/banner-mercomax.png"></img></div>
+      <div className="flex justify-center text-3xl bold mb-14">
+        <img className="w-[20rem]" src="/rh-nuevo/banner-mercomax.png"></img>
+      </div>
       {/* primera fila */}
       <div className="flex flex-col md:flex-row w-full md:h-[15rem] justify-center items-center">
         <div className="w-[15rem] md:w-[28rem] flex flex-col border-2 m-6 border-black rounded-3xl h-full">
@@ -83,7 +111,7 @@ const Inicio = () => {
           <div className="text-2xl p-3 bold md:h-12">Noticias</div>
           {/* <div className="w-full grow m-2 ">a</div> */}
           <div className="md:h-[10rem] p-3">
-            <Cultura CulturaArray={cultura}/>
+            <Cultura CulturaArray={cultura} />
           </div>
         </div>
       </div>
@@ -96,17 +124,30 @@ const Inicio = () => {
               {novedades.map((anuncio) => {
                 return (
                   <div
-                    key={anuncio.id.toString()}
-                    className="w-[95%] bg-[#FFFFFF] border-2  border-black m-2 rounded-3xl p-2"
-                  >
-                    <div className="flex flex-col">
-                      <div className="flex justify-between">
-                        <div className="text-lg">{anuncio.titulo}</div>
-                        <div className="text-xs align-middle pt-2 w-[4rem]">
-                          {anuncio.fecha.toString().slice(0, 10)}
+                      key={anuncio.id.toString()}
+                      className="w-[95%] bg-[#FFFFFF] border-2 relative border-black m-2 rounded-3xl p-2 "
+                    >
+                  <div className="flex justify-between w-full">
+                      <div className="flex flex-col pr-5">
+                        <div className="flex align-middle justify-between">
+                          <div className="text-lg">{anuncio.titulo}</div>
+                          <div className="text-xs align-middle pt-2">
+                            {anuncio.fecha.toString().slice(0, 10)}
+                          </div>
                         </div>
+                        <div className="text-sm">{anuncio.contenido}</div>
                       </div>
-                      <div className="text-sm">{anuncio.contenido}</div>
+                      {!RH ? (
+                        <div className="hidden"></div>
+                      ) : (
+                        <button onClick={()=>{borrarAnuncio(anuncio)}} className="absolute top-[0.35rem] right-[0.35rem] ">
+                          <img
+                            className="w-5"
+                            src="/rh-nuevo/tacho.svg"
+                            alt="asdf"
+                          />
+                        </button>
+                      )}
                     </div>
                   </div>
                 );
@@ -128,7 +169,7 @@ const Inicio = () => {
             Notificaciones
           </div> */}
         <div className="flex justify-center space-x-3">
-          <Modal noticias={noticias} />
+          <Modal noticias={noticias} deleteNoticia={borrarNoticia} RH={RH}/>
         </div>
       </div>
     </div>
