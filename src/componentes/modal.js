@@ -5,11 +5,12 @@ import categorias from "../const/categorias.js";
 
 const Modal = ({ noticias, deleteNoticia, RH }) => {
   const [estado, setEstado] = useState(false);
-  const [actual, setActual] = useState({ img: null, w: 0, h: 0 });
+  const [actual, setActual] = useState({ img: null, fecha:null, w: 0, h: 0 });
 
-  const handleClick = (imagen, w, h) => {
+  const handleClick = (imagen, fecha, w, h) => {
     setActual({
       img: imagen,
+      fecha: fecha,
       w: w,
       h: h,
     });
@@ -40,17 +41,20 @@ const Modal = ({ noticias, deleteNoticia, RH }) => {
                             className="overflow-clip"
                             key={"imagen " + index}
                             onClick={() => {
-                              handleClick(imagen.url, imagen.w, imagen.h);
+                              handleClick(imagen.url, imagen.fecha.slice(0,10) , imagen.w, imagen.h);
                             }}
                           >
                             <div
-                              className={
+                              className={ 
                                 imagen.w < imagen.h
                                   ? "w-[12rem] h-[17rem]  "
                                   : "w-[17rem] h-[12rem] "
                               }
                             >
                               <img
+                                className="z-[-1]"
+                                layout="fill" 
+                                objectFit="cover"
                                 src={imagen.url}
                                 alt={imagen.nombre}
                                 width={imagen.w}
@@ -86,7 +90,7 @@ const Modal = ({ noticias, deleteNoticia, RH }) => {
             <Transition.Root show={true} as={Fragment}>
               <Dialog
                 as="div"
-                className="relative z-10"
+                className="relative z-[80]"
                 onClose={() => {
                   setEstado(false);
                 }}
@@ -114,7 +118,7 @@ const Modal = ({ noticias, deleteNoticia, RH }) => {
                       leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                       leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                      <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 h-[36rem] sm:p-6">
+                      <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 md:h-[36rem] sm:p-6">
                         <div className="absolute right-0 top-0 hidden pr-4 pt-4 sm:block">
                           <button
                             type="button"
@@ -127,7 +131,7 @@ const Modal = ({ noticias, deleteNoticia, RH }) => {
                           </button>
                         </div>
 
-                        <div className="md:w-[40rem] md:h-[34rem] flex justify-center items-center">
+                        <div className="flex flex-col md:w-[40rem] md:h-[34rem] justify-center items-center">
                           {actual.w > actual.h ? (
                             <img
                               className="w-[90%] h-auto"
@@ -145,6 +149,7 @@ const Modal = ({ noticias, deleteNoticia, RH }) => {
                               height={actual.h}
                             />
                           )}
+                          {actual.fecha}
                         </div>
                       </Dialog.Panel>
                     </Transition.Child>

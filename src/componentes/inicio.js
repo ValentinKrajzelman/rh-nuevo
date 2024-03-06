@@ -64,14 +64,13 @@ const Inicio = () => {
       currentNovedades();
     });
   };
-  
+
   const borrarNoticia = async (noticia) => {
     await fetchDeleteNoticias(noticia).then((res) => {
       console.log(res);
       currentNovedades();
     });
   };
-  
 
   const popularCultura = async () => {
     console.log("algo");
@@ -124,10 +123,10 @@ const Inicio = () => {
               {novedades.map((anuncio) => {
                 return (
                   <div
-                      key={anuncio.id.toString()}
-                      className="w-[95%] bg-[#FFFFFF] border-2 relative border-black m-2 rounded-3xl p-2 "
-                    >
-                  <div className="flex justify-between w-full">
+                    key={anuncio.id.toString()}
+                    className="w-[95%] bg-[#FFFFFF] border-2 relative border-black m-2 rounded-3xl p-2 "
+                  >
+                    <div className="flex justify-between w-full">
                       <div className="flex flex-col pr-5">
                         <div className="flex align-middle justify-between">
                           <div className="text-lg">{anuncio.titulo}</div>
@@ -140,7 +139,12 @@ const Inicio = () => {
                       {!RH ? (
                         <div className="hidden"></div>
                       ) : (
-                        <button onClick={()=>{borrarAnuncio(anuncio)}} className="absolute top-[0.35rem] right-[0.35rem] ">
+                        <button
+                          onClick={() => {
+                            borrarAnuncio(anuncio);
+                          }}
+                          className="absolute top-[0.35rem] right-[0.35rem] "
+                        >
                           <img
                             className="w-5"
                             src="/rh-nuevo/tacho.svg"
@@ -169,7 +173,7 @@ const Inicio = () => {
             Notificaciones
           </div> */}
         <div className="flex justify-center space-x-3">
-          <Modal noticias={noticias} deleteNoticia={borrarNoticia} RH={RH}/>
+          <Modal noticias={noticias} deleteNoticia={borrarNoticia} RH={RH} />
         </div>
       </div>
     </div>
