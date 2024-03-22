@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 
-import categorias from "../../const/categorias";
+import categorias from "../../../const/categorias";
 
-import { fetchPostNovedades } from "../../api/novedades";
+import { fetchPostNovedades } from "../../../api/novedades";
 
 const Dashboard = () => {
   const [titulo, setTitulo] = useState("");

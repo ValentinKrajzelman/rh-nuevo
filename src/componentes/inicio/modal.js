@@ -1,7 +1,7 @@
 import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import React from "react";
-import categorias from "../const/categorias.js";
+import categorias from "../../const/categorias.js";
 
 const Modal = ({ noticias, deleteNoticia, RH }) => {
   const [estado, setEstado] = useState(false);
@@ -26,10 +26,10 @@ const Modal = ({ noticias, deleteNoticia, RH }) => {
             return (
               <div
                 key={"categoria " + index}
-                className="flex flex-col justify-center items-center"
+                className="flex flex-col h-fit justify-center items-center"
               >
                 <div className="text-3xl bold py-5">{categoria.categoria}</div>
-                <div className="flex flex-wrap items-center justify-center">
+                <div className="flex flex-wrap items-start justify-center">
                   {noticias
                     .filter((noticia) => {
                       return noticia.categoria == categoria.categoria;
@@ -38,7 +38,7 @@ const Modal = ({ noticias, deleteNoticia, RH }) => {
                       return (
                         <div className="relative">
                           <button
-                            className="overflow-clip"
+                            className=""
                             key={"imagen " + index}
                             onClick={() => {
                               handleClick(imagen.url, imagen.fecha.slice(0,10) , imagen.w, imagen.h);
@@ -47,8 +47,8 @@ const Modal = ({ noticias, deleteNoticia, RH }) => {
                             <div
                               className={ 
                                 imagen.w < imagen.h
-                                  ? "w-[12rem] h-[17rem]  "
-                                  : "w-[17rem] h-[12rem] "
+                                  ? "w-[12rem] h-auto  "
+                                  : "w-[17rem] h-auto "
                               }
                             >
                               <img
@@ -76,6 +76,18 @@ const Modal = ({ noticias, deleteNoticia, RH }) => {
                               />
                           </button>
                             }
+                            <button
+                            className="absolute top-0 left-0 bg-black w-12 h-12 bg-opacity-40 rounded-br-2xl"
+                            onClick={() => {
+                              handleClick(imagen.url, imagen.fecha.slice(0,10) , imagen.w, imagen.h);
+                            }}
+                            >
+                            <img
+                              className="m-1 w-8"
+                              src="/rh-nuevo/search.png"
+                              alt="asdf"
+                              />
+                          </button>
                         </div>
                       );
                     })}

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import Modal from "./modal";
 import Clima from "./clima";
-import { fetchCurrentClima } from "../api/clima";
-import { fetchCurrentNoticias, fetchDeleteNoticias } from "../api/noticias";
-import { fetchCurrentNovedades, fetchDeleteNovedades } from "../api/novedades";
+import { fetchCurrentClima } from "../../api/clima";
+import { fetchCurrentNoticias, fetchDeleteNoticias } from "../../api/noticias";
+import { fetchCurrentNovedades, fetchDeleteNovedades } from "../../api/novedades";
 import Cultura from "./noticias";
 
 import axios from "axios";

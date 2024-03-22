@@ -1,8 +1,10 @@
 import { Navigate, Route, Routes } from "react-router-dom";
-import Navbar from "./componentes/navbar";
-import Inicio from "./componentes/inicio";
-import Dashboard from "./componentes/dashboard/dashboard";
 import { useState, useRef, useEffect } from "react";
+
+import Navbar from "./componentes/navbar";
+import Inicio from "./componentes/inicio/inicio";
+import Dashboard from "./componentes/inicio/dashboard/dashboard";
+import Solicitudes from "./componentes/solicitudes/solicitudes";
 
 
 function App() {
@@ -23,6 +25,7 @@ function App() {
       <Routes>
         <Route path="/rh-nuevo/*" element={<Inicio/>}> </Route>
         <Route path="/rh-nuevo/dashboard/*" element={<Dashboard/>}> </Route>
+        <Route path="/rh-nuevo/solicitudes/*" element={<Solicitudes/>}> </Route>
       </Routes>
     </div>
   );

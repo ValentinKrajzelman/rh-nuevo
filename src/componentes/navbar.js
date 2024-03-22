@@ -160,7 +160,14 @@ const Navbar = ({estado, setEstado}) => {
                       <div className="pl-6">Dashboard</div>
                     </a>
                     <a
-                      href="https://mmxapp2.mercomaxsa.com.ar/rh/themes/carga_inasistencias.php"
+                      href={
+                        "https://mmxapp2.mercomaxsa.com.ar/rh-nuevo/solicitudes/?a=" +
+                        user.nombre +
+                        "&b=" +
+                        user.apellido +
+                        "&c=" +
+                        user.legajo
+                      }
                       className="w-full  p-1 flex"
                     >
                       <img
@@ -168,7 +175,7 @@ const Navbar = ({estado, setEstado}) => {
                         src="/rh-nuevo/nuevo-icon (6).svg"
                         alt="asdf"
                       />
-                      <div className="pl-6">Inasistencias</div>
+                      <div className="pl-6">Solicitudes</div>
                     </a>
                     <a
                       href="https://mmxapp2.mercomaxsa.com.ar/rh/themes/internos.php"
