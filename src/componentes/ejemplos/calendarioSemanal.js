@@ -6,7 +6,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ')
 }
 
-export default function Example2() {
+export default function CalendarioSemanal() {
   const container = useRef(null)
   const containerNav = useRef(null)
   const containerOffset = useRef(null)

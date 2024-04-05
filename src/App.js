@@ -20,7 +20,7 @@ function App() {
   },[estado])
 
   return (
-    <div className={"flex relative"} ref={ref}>
+    <div className={"flex relative w-screen"} ref={ref}>
       <Navbar estado={estado} setEstado={setEstado} className=""/>
       <Routes>
         <Route path="/rh-nuevo/*" element={<Inicio/>}> </Route>

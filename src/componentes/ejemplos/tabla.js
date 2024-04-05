@@ -3,7 +3,7 @@ const people = [
     // More people...
   ]
   
-  export default function Example() {
+  export default function Tabla() {
     return (
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="sm:flex sm:items-center">
