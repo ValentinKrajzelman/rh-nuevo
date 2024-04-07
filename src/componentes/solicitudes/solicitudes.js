@@ -1,7 +1,10 @@
-import React, { useState } from "react";
-import CalendarioDiario from "../ejemplos/calendarioDiario";
-import CalendarioSemanal from "../ejemplos/calendarioSemanal";
-import Tabla from "../ejemplos/tabla";
+import React, { useEffect, useRef, useState } from "react";
+// import CalendarioDiario from "../ejemplos/calendarioDiario";
+// import CalendarioSemanal from "../ejemplos/calendarioSemanal";
+import DateRangePicker from "@wojtekmaj/react-daterange-picker";
+import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
+import "react-calendar/dist/Calendar.css";
+import VacacionesSemana from "./vacacionesSemana";
 
 const Solicitudes = () => {
   const [tipo, setTipo] = useState("vacaciones");
@@ -25,7 +28,9 @@ const Solicitudes = () => {
             <option>Vacaciones</option>
           </select>
         </div>
-        <CalendarioSemanal />
+        <VacacionesSemana/>
+
+        {/* <CalendarioSemanal /> */}
       </div>
     </div>
   );
