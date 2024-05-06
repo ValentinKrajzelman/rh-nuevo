@@ -49,7 +49,7 @@ console.log(solicitudes)
                           {solicitud.id}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
-                          {solicitud.fecha_inicio}
+                          {solicitud.fecha_fin?.substring(0, 10)}
                         </td>
                         <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
                           {solicitud.estado}

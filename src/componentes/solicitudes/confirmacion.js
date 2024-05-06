@@ -1,20 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import DateRangePicker from "@wojtekmaj/react-daterange-picker";
-import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
-import "react-calendar/dist/Calendar.css";
-import VacacionesSemana from "./vacacionesSemana";
-import Tabla from "./tablaSolicitudes";
-import Modal from "./modal";
-import { fetchSolicitudesOneUser } from "../../api/solicitudesSolicitudes";
-import CalendarioSemanal from "../ejemplos/calendarioSemanal";
+import { fetchSolicitudesOneUser } from "@/src/api/solicitudesSolicitudes";
+import React, { useState } from "react";
 
-
-const Solicitudes = () => {
+const Confirmacion = () => {
   const [tipo, setTipo] = useState("vacaciones");
-
+  const [sector, setSector] = useState(false);
   const [visibilidad, setVisibilidad] = useState(false);
   const [solicitudModal, setSolicitudModal] = useState({});
-
   const [solicitudesActuales, setSolicitudes] = useState(null);
 
   const currentSolicitudes = async () => {
@@ -29,7 +20,11 @@ const Solicitudes = () => {
 
   return (
     <div className="flex flex-col items-center w-full mt-5">
-      <Modal visibilidad={visibilidad} solicitudModal={solicitudModal} setVisibilidad={setVisibilidad} />
+      <Modal
+        visibilidad={visibilidad}
+        solicitudModal={solicitudModal}
+        setVisibilidad={setVisibilidad}
+      />
       <div className="w-[60rem]">
         <div className="w-[10rem]">
           <label
@@ -47,8 +42,7 @@ const Solicitudes = () => {
             <option>Vacaciones</option>
           </select>
         </div>
-        {/* <VacacionesSemana /> */}
-        <CalendarioSemanal/>
+        <CalendarioSemanal />
         <Tabla
           solicitudes={solicitudesActuales}
           setVisibilidad={setVisibilidad}
@@ -59,4 +53,4 @@ const Solicitudes = () => {
   );
 };
 
-export default Solicitudes;
+export default Confirmacion;

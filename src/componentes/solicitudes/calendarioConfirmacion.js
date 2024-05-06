@@ -87,7 +87,7 @@ export default function CalendarioSemanal() {
               {/* nombres rows */}
               <div
                 className="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-100"
-                style={{ gridTemplateRows: "repeat(12, minmax(3.5rem, 1fr))" }}
+                style={{ gridTemplateRows: "repeat(48, minmax(3.5rem, 1fr))" }}
               >
                 <div ref={containerOffset} className="row-end-1 h-7"></div>
                 <div>
@@ -115,7 +115,7 @@ export default function CalendarioSemanal() {
                 style={{
                   gridTemplateRows: "1.75rem repeat(288, minmax(0, 1fr)) auto",
                 }}
-              >-
+              >
                 <li
                   className="relative mt-px flex sm:col-start-3"
                   style={{ gridRow: "74 / span 12" }}
@@ -165,6 +165,8 @@ export default function CalendarioSemanal() {
                   </a>
                 </li>
               </ol> */}
+
+
             </div>
           </div>
         </div>
