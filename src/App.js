@@ -5,6 +5,7 @@ import Navbar from "./componentes/navbar";
 import Inicio from "./componentes/inicio/inicio";
 import Dashboard from "./componentes/inicio/dashboard/dashboard";
 import Solicitudes from "./componentes/solicitudes/solicitudes";
+import Confirmacion from "./componentes/solicitudes/confirmacion";
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
         <Route path="/rh-nuevo/*" element={<Inicio/>}> </Route>
         <Route path="/rh-nuevo/dashboard/*" element={<Dashboard/>}> </Route>
         <Route path="/rh-nuevo/solicitudes/*" element={<Solicitudes/>}> </Route>
+        <Route path="/rh-nuevo/solicitudes/confirmacion/*" element={<Confirmacion/>}> </Route>
       </Routes>
     </div>
   );

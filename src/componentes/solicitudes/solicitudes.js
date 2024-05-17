@@ -47,8 +47,7 @@ const Solicitudes = () => {
             <option>Vacaciones</option>
           </select>
         </div>
-        {/* <VacacionesSemana /> */}
-        <CalendarioSemanal/>
+        <VacacionesSemana />
         <Tabla
           solicitudes={solicitudesActuales}
           setVisibilidad={setVisibilidad}

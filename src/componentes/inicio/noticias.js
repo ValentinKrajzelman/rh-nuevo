@@ -10,7 +10,7 @@ const Cultura = ({ CulturaArray }) => {
           return (
             <div
               key={itemCultura.id}
-              className="flex justify-between mb-5 border-2 rounded-3xl bg-[#ffffff] border-black md:h-[10rem] p-[1rem]"
+              className="flex justify-between mb-5 border-2 rounded-3xl bg-[#ffffff] border-black md:h-[10rem] p-[1rem] overflow-hidden"
             >
               <div className="flex flex-col justify-between w-[12rem]">
                 <div className="text-md mb-2 font-bold">

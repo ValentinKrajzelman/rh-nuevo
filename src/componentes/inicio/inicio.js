@@ -107,9 +107,9 @@ const Inicio = () => {
           {/* </div> */}
         </div>
         <div className="w-[15rem] md:w-[28rem] flex flex-col border-2 m-6 ml-8 border-black rounded-3xl h-full">
-          <div className="text-2xl p-3 bold md:h-12">Noticias</div>
+          <div className="text-2xl p-3 bold md:h-12">Noticias - Sec de cultura</div>
           {/* <div className="w-full grow m-2 ">a</div> */}
-          <div className="md:h-[10rem] p-3">
+          <div className="md:h-[10rem] p-3 ">
             <Cultura CulturaArray={cultura} />
           </div>
         </div>

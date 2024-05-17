@@ -1,5 +1,8 @@
-import { fetchSolicitudesOneUser } from "@/src/api/solicitudesSolicitudes";
-import React, { useState } from "react";
+import { fetchSolicitudesOneUser } from "../../api/solicitudesSolicitudes";
+import React, { useEffect, useState } from "react";
+import CalendarioConfirmacion from "./calendarioConfirmacion";
+import Modal from "./modal";
+import Tabla from "./tablaSolicitudes";
 
 const Confirmacion = () => {
   const [tipo, setTipo] = useState("vacaciones");
@@ -42,7 +45,7 @@ const Confirmacion = () => {
             <option>Vacaciones</option>
           </select>
         </div>
-        <CalendarioSemanal />
+        <CalendarioConfirmacion />
         <Tabla
           solicitudes={solicitudesActuales}
           setVisibilidad={setVisibilidad}

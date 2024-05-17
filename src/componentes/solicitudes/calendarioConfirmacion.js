@@ -11,7 +11,7 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function CalendarioSemanal() {
+export default function CalendarioConfirmacion() {
   const container = useRef(null);
   const containerNav = useRef(null);
   const containerOffset = useRef(null);
@@ -48,7 +48,7 @@ export default function CalendarioSemanal() {
               type="button"
               className="ml-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
             >
-              Revision
+              Revisionn
             </button>
           </div>
         </div>
@@ -67,7 +67,10 @@ export default function CalendarioSemanal() {
             ref={containerNav}
             className="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8"
           >
-            <div className="-mr-px hidden grid-cols-7 divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid">
+            <div
+              className="-mr-px hidden grid-cols-[30] divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid"
+              style={{ gridTemplateColumns: "repeat(30, minmax(3.5rem, 1fr))" }}
+            >
               <div className="col-end-1 w-14" />
 
               <div className="flex items-center justify-center py-3">
@@ -82,43 +85,51 @@ export default function CalendarioSemanal() {
           </div>
 
           <div className="flex flex-auto">
-            <div className="sticky left-0 z-10 w-14 flex-none bg-white ring-1 ring-gray-100" />
+            <div className="sticky left-0 z-10 w-[4.5rem] flex-none bg-white ring-1 ring-gray-100" />
             <div className="grid flex-auto grid-cols-1 grid-rows-1">
               {/* nombres rows */}
               <div
                 className="col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-100"
-                style={{ gridTemplateRows: "repeat(48, minmax(3.5rem, 1fr))" }}
+                style={{
+                  gridTemplateRows: "repeat(12, minmax(2.5rem,2.5rem))",
+                }}
               >
-                <div ref={containerOffset} className="row-end-1 h-7"></div>
-                <div>
-                  <div className="sticky left-0 z-20 -ml-14 -mt-2.5 w-14 pr-2 text-right text-xs leading-5 text-gray-400">
-                    1AM
+                <div ref={containerOffset} className="row-end-1 h-[2.5rem]">
+                  <div className="sticky left-0 z-20 -ml-[8rem] w-[4.5rem] pr-2 text-xs leading-5 text-gray-400">
+                    nombre nombrenombre
                   </div>
+                </div>
+                <div>
+                  <div className="sticky left-0 z-20 -ml-14 -mt-[0.9rem] w-14 pr-2 text-right text-xs leading-5 text-gray-400"></div>
                 </div>
               </div>
 
               {/* Vertical lines */}
-              <div className="col-start-1 col-end-2 row-start-1 hidden grid-cols-7 grid-rows-1 divide-x divide-gray-100 sm:grid sm:grid-cols-7">
-                <div className="col-start-1 row-span-full" />
-                <div className="col-start-2 row-span-full" />
-                <div className="col-start-3 row-span-full" />
-                <div className="col-start-4 row-span-full" />
-                <div className="col-start-5 row-span-full" />
-                <div className="col-start-6 row-span-full" />
-                <div className="col-start-7 row-span-full" />
-                <div className="col-start-8 row-span-full w-8" />
+              <div
+                className="grid col-start-1 col-end-2 row-start-1 grid-rows-1 divide-x divide-gray-100"
+                style={{
+                  gridTemplateColumns: "repeat(30, minmax(1.8rem,1.8rem))",
+                }}
+              >
+                {/* esto es lo que renderiza los separadores grises verticales entre los dias, el array tiene que ser los dias del mes + 1 */}
+                {[...Array(31)].map((num, index) => {
+                  return (
+                    <div className={"col-start-" + index + " row-span-full"} />
+                  );
+                })}
               </div>
 
               {/* casillas */}
-              {/* <ol
-                className="col-start-1 col-end-2 row-start-1 grid grid-cols-1 sm:grid-cols-7 sm:pr-8"
+              <ol
+                className="col-start-1 col-end-2 row-start-1 grid"
                 style={{
-                  gridTemplateRows: "1.75rem repeat(288, minmax(0, 1fr)) auto",
+                  gridTemplateRows: "repeat(12, minmax(2.5rem,2.5rem))",
+                  gridTemplateColumns: "repeat(30, minmax(1.8rem,1.8rem))",
                 }}
               >
                 <li
                   className="relative mt-px flex sm:col-start-3"
-                  style={{ gridRow: "74 / span 12" }}
+                  style={{ gridRow: "1 / span 1" }}
                 >
                   <a
                     href="#"
@@ -132,41 +143,7 @@ export default function CalendarioSemanal() {
                     </p>
                   </a>
                 </li>
-                <li
-                  className="relative mt-px flex sm:col-start-3"
-                  style={{ gridRow: "92 / span 30" }}
-                >
-                  <a
-                    href="#"
-                    className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-pink-50 p-2 text-xs leading-5 hover:bg-pink-100"
-                  >
-                    <p className="order-1 font-semibold text-pink-700">
-                      Flight to Paris
-                    </p>
-                    <p className="text-pink-500 group-hover:text-pink-700">
-                      <time dateTime="2022-01-12T07:30">7:30 AM</time>
-                    </p>
-                  </a>
-                </li>
-                <li
-                  className="relative mt-px hidden sm:col-start-6 sm:flex"
-                  style={{ gridRow: "122 / span 24" }}
-                >
-                  <a
-                    href="#"
-                    className="group absolute inset-1 flex flex-col overflow-y-auto rounded-lg bg-gray-100 p-2 text-xs leading-5 hover:bg-gray-200"
-                  >
-                    <p className="order-1 font-semibold text-gray-700">
-                      Meeting with design team at Disney
-                    </p>
-                    <p className="text-gray-500 group-hover:text-gray-700">
-                      <time dateTime="2022-01-15T10:00">10:00 AM</time>
-                    </p>
-                  </a>
-                </li>
-              </ol> */}
-
-
+              </ol>
             </div>
           </div>
         </div>
