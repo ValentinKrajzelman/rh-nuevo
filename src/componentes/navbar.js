@@ -159,7 +159,7 @@ const Navbar = ({estado, setEstado}) => {
                       />
                       <div className="pl-6">Dashboard</div>
                     </a>
-                    <a
+                    {/* <a
                       href={
                         "https://mmxapp2.mercomaxsa.com.ar/rh-nuevo/solicitudes/?a=" +
                         user.nombre +
@@ -176,7 +176,7 @@ const Navbar = ({estado, setEstado}) => {
                         alt="asdf"
                       />
                       <div className="pl-6">Solicitudes</div>
-                    </a>
+                    </a> */}
                     <a
                       href="https://mmxapp2.mercomaxsa.com.ar/rh/themes/internos.php"
                       className="w-full  p-1 flex"
