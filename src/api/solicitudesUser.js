@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const url = 'https://mmxapp2.mercomaxsa.com.ar/node/rhSolicitudesUser/';
 
-// export const fetchCurrentNovedades = () => axios.get(url + "current");
+export const fetchOneUser = (id) => axios.get(url + "one/" + id);
 // export const fetchOneDetalles = (id) => axios.get(url+'one',id);
 // export const fetchManyDetalles = (id) => axios.get(url+'many/' + id);
 // export const fetchPostNovedades = (novedades) => axios.post(url+'one',novedades);

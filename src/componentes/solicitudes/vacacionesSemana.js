@@ -3,6 +3,9 @@ import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
 
+import inicioDeSemana from "../../lib/inicioDeSemana";
+import feriados from "../../const/feriados";
+
 // Assuming currentDate represents 10/7/2024
 const currentDate = new Date(); // Months are 0-indexed, so 9 represents October
 
@@ -16,35 +19,36 @@ const nextYearDate = new Date(
   currentDate.getDate()
 );
 
+
 const VacacionesSemana = () => {
   const [estado, setEstado] = useState("Seleccione la semana para solicitar.");
   const [value, onChange] = useState(null);
-
+  
+  const iniSem = feriados;
+  
+  
   useEffect(() => {
     if (!value) {
     } else if (
-      value[0].toString().includes("Mon") &&
-      value[1].toString().includes("Sun")
+      Math.round(((value[1] - value[0]) / (1000 * 60 * 60 * 24)))% 7 == 0 &&
+      inicioDeSemana(iniSem,value[0])
     ) {
       setEstado(
         <div className="text-green-600 mb-3">
           <div>*Todo ok. Selecciono:</div>
-          <div>
-            {" "}
-            ({Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24) / 7)})
-            Semana(s)
-          </div>
+          <div> ({Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24))}) Dia(s)</div>
         </div>
       );
     } else if (
-      !value[0].toString().includes("Mon") ||
-      !value[1].toString().includes("Sun")
+      !(Math.round(((value[1] - value[0]) / (1000 * 60 * 60 * 24)))% 7 == 0) ||
+      !inicioDeSemana(iniSem,value[0])
     ) {
       setEstado(
         <div className="text-red-600 mb-3 w-full">
           <div>
-            *Error. Debe elegir una semana completa, que comience por lunes y
-            termine por domingo.
+            *Error. Fechas elegidas no validas. 
+            -No se puede iniciar las vacaciones a mitad de semana. 
+            -Solo semanas completas de corrido (7, 14, 21, etc).
           </div>
         </div>
       );

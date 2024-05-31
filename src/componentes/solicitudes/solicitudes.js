@@ -5,7 +5,7 @@ import "react-calendar/dist/Calendar.css";
 import VacacionesSemana from "./vacacionesSemana";
 import Tabla from "./tablaSolicitudes";
 import Modal from "./modal";
-import { fetchSolicitudesOneUser } from "../../api/solicitudesSolicitudes";
+import { fetchSolicitudesUser } from "../../api/solicitudesSolicitudes";
 import CalendarioSemanal from "../ejemplos/calendarioSemanal";
 
 
@@ -18,7 +18,7 @@ const Solicitudes = () => {
   const [solicitudesActuales, setSolicitudes] = useState(null);
 
   const currentSolicitudes = async () => {
-    await fetchSolicitudesOneUser(882).then((res) => {
+    await fetchSolicitudesUser(882).then((res) => {
       setSolicitudes(res.data);
     });
   };

@@ -1,4 +1,4 @@
-import { fetchSolicitudesOneUser } from "../../api/solicitudesSolicitudes";
+import { fetchSolicitudesUser } from "../../api/solicitudesSolicitudes";
 import React, { useEffect, useState } from "react";
 import CalendarioConfirmacion from "./calendarioConfirmacion";
 import Modal from "./modal";
@@ -12,7 +12,7 @@ const Confirmacion = () => {
   const [solicitudesActuales, setSolicitudes] = useState(null);
 
   const currentSolicitudes = async () => {
-    await fetchSolicitudesOneUser(882).then((res) => {
+    await fetchSolicitudesUser(882).then((res) => {
       setSolicitudes(res.data);
     });
   };
