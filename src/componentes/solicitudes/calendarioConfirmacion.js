@@ -1,31 +1,19 @@
-import { Fragment, useEffect, useRef } from "react";
-import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  EllipsisHorizontalIcon,
-} from "@heroicons/react/20/solid";
-import { Menu, Transition } from "@headlessui/react";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+import { useEffect, useState } from "react";
+import meses from "../../const/meses";
 
 export default function CalendarioConfirmacion() {
-  const container = useRef(null);
-  const containerNav = useRef(null);
-  const containerOffset = useRef(null);
+  const currentDate = new Date();
+  const dateString = currentDate.toDateString();
+
+  const [mes, setMes] = useState(
+    meses.findIndex((mesAct, index) => {
+      return dateString.includes(mesAct.mes) && dateString.includes(mesAct.ano);
+    })
+  );
 
   useEffect(() => {
-    // Set the container scroll position based on the current time.
-    const currentMinute = new Date().getHours() * 60;
-    container.current.scrollTop =
-      ((container.current.scrollHeight -
-        containerNav.current.offsetHeight -
-        containerOffset.current.offsetHeight) *
-        currentMinute) /
-      1440;
-  }, []);
+    console.log(mes);
+  }, [mes]);
 
   return (
     <div className="flex h-full flex-col">
@@ -33,12 +21,19 @@ export default function CalendarioConfirmacion() {
       <header className="flex flex-none items-center justify-between border-b border-gray-200 px-6 py-4">
         <h1 className="text-base font-semibold leading-6 text-gray-900">
           <select
+            value={meses[mes].nombre}
+            onChange={(e) => {
+              setMes(e.target.value);
+            }}
             id="location"
             name="location"
             className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
-            defaultValue="Vacaciones"
           >
-            <option>2024</option>
+            {meses.map((mes, index) => {
+              return (
+                <option value={index}>{mes.nombre + " " + mes.ano}</option>
+              );
+            })}
           </select>
         </h1>
         <div className="flex items-center">
@@ -54,19 +49,13 @@ export default function CalendarioConfirmacion() {
         </div>
       </header>
 
-      <div
-        ref={container}
-        className="isolate flex flex-auto flex-col overflow-auto bg-white"
-      >
+      <div className="isolate flex flex-auto flex-col overflow-auto bg-white">
         <div
           style={{ width: "165%" }}
           className="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full"
         >
           {/* dias */}
-          <div
-            ref={containerNav}
-            className="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8"
-          >
+          <div className="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8">
             <div
               className="-mr-px hidden grid-cols-[30] divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid"
               style={{
@@ -100,7 +89,7 @@ export default function CalendarioConfirmacion() {
               >
                 {[...Array(12)].map((num, index) => {
                   return (
-                    <div ref={containerOffset} className={"row-start-[" + index + 1 + "] h-[2.5rem]"}>
+                    <div className={"row-start-[" + index + 1 + "] h-[2.5rem]"}>
                       <div className="sticky left-0 z-20 -ml-[8rem] w-[7rem] pr-2 text-xs leading-5 text-gray-400">
                         valentin krajzelman
                       </div>
@@ -139,9 +128,7 @@ export default function CalendarioConfirmacion() {
                   className="relative mt-px flex sm:col-start-3"
                   style={{ gridRow: "3 / span 1", gridColumn: "3 / span 7" }}
                 >
-                <div className="bg-blue-400 w-full"
-                
-                >asdf</div>
+                  <div className="bg-blue-400 w-full">asdf</div>
                 </li>
               </ol>
             </div>
