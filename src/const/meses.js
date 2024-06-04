@@ -1,0 +1,28 @@
+const meses = [
+    {mes:"Jan",nombre:"Enero" ,dias: 31, ano:"2024"},
+    {mes:"Feb",nombre:"Febrero" ,dias: 29, ano:"2024"},
+    {mes:"Mar",nombre:"Marzo" ,dias: 31, ano:"2024"},
+    {mes:"Apr",nombre:"Abril" ,dias: 30, ano:"2024"},
+    {mes:"May",nombre:"Mayo" ,dias: 31, ano:"2024"},
+    {mes:"Jun",nombre:"Junio" ,dias: 30, ano:"2024"},
+    {mes:"Jul",nombre:"Julio" ,dias: 31, ano:"2024"},
+    {mes:"Aug",nombre:"Agosto" ,dias: 31, ano:"2024"},
+    {mes:"Sep",nombre:"Septiembre" ,dias: 30, ano:"2024"},
+    {mes:"Oct",nombre:"Octubre" ,dias: 31, ano:"2024"},
+    {mes:"Nov",nombre:"Noviembre" ,dias: 30, ano:"2024"},
+    {mes:"Dec",nombre:"Diciembre" ,dias: 31, ano:"2024"},
+    {mes:"Jan",nombre:"Enero" ,dias: 31, ano:"2025"},
+    {mes:"Feb",nombre:"Febrero" ,dias: 29, ano:"2025"},
+    {mes:"Mar",nombre:"Marzo" ,dias: 31, ano:"2025"},
+    {mes:"Apr",nombre:"Abril" ,dias: 30, ano:"2025"},
+    {mes:"May",nombre:"Mayo" ,dias: 31, ano:"2025"},
+    {mes:"Jun",nombre:"Junio" ,dias: 30, ano:"2025"},
+    {mes:"Jul",nombre:"Julio" ,dias: 31, ano:"2025"},
+    {mes:"Aug",nombre:"Agosto" ,dias: 31, ano:"2025"},
+    {mes:"Sep",nombre:"Septiembre" ,dias: 30, ano:"2025"},
+    {mes:"Oct",nombre:"Octubre" ,dias: 31, ano:"2025"},
+    {mes:"Nov",nombre:"Noviembre" ,dias: 30, ano:"2025"},
+    {mes:"Dec",nombre:"Diciembre" ,dias: 31, ano:"2025"},
+]
+
+export default meses;
