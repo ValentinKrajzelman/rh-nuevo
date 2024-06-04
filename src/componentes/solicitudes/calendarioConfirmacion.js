@@ -1,4 +1,4 @@
-import { Fragment, useEffect, useRef } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -15,6 +15,10 @@ export default function CalendarioConfirmacion() {
   const container = useRef(null);
   const containerNav = useRef(null);
   const containerOffset = useRef(null);
+
+  const [mes, setMes] = useState();
+  console.log(mes);
+
 
   useEffect(() => {
     // Set the container scroll position based on the current time.
@@ -39,6 +43,18 @@ export default function CalendarioConfirmacion() {
             defaultValue="Vacaciones"
           >
             <option>2024</option>
+            <option>2025</option>
+          </select>
+        </h1>
+        <h1 className="text-base font-semibold leading-6 text-gray-900">
+          <select
+            id="location"
+            name="location"
+            className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            defaultValue="Vacaciones"
+          >
+            <option onClick={()=>{setMes({ nombre: "enero", numero: 1, dias: 31 })}}>Enero</option>
+            <option>2025</option>
           </select>
         </h1>
         <div className="flex items-center">

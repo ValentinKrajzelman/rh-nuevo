@@ -10,7 +10,7 @@ const Confirmacion = () => {
   const [visibilidad, setVisibilidad] = useState(false);
   const [solicitudModal, setSolicitudModal] = useState({});
   const [solicitudesActuales, setSolicitudes] = useState(null);
-
+ 
   const currentSolicitudes = async () => {
     await fetchSolicitudesUser(882).then((res) => {
       setSolicitudes(res.data);
