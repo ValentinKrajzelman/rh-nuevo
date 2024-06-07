@@ -1,5 +1,9 @@
 import { useEffect, useState } from "react";
 import meses from "../../const/meses";
+import { fetchAllSectores } from "../../api/solicitudesSector";
+import { fetchSolicitudesCurrentSector } from "../../api/solicitudesSolicitudes";
+import procesarSolicitudes from "../../lib/procesarSolicitudes";
+import { fetchUsersSector } from "../../api/solicitudesUser";
 
 export default function CalendarioConfirmacion() {
   const currentDate = new Date();
@@ -10,31 +14,87 @@ export default function CalendarioConfirmacion() {
       return dateString.includes(mesAct.mes) && dateString.includes(mesAct.ano);
     })
   );
+  const [sectores, setSectores] = useState();
+  const [sectorActual, setSectorActual] = useState();
+  const [solicitudes, setSolicitudes] = useState();
+  const [personal, setPersonal] = useState();
 
+  const popularSectores = async () => {
+    await fetchAllSectores().then((res) => {
+      setSectores(res.data);
+    });
+  };
+
+  const popularPersonal = async () => {
+    sectorActual &&
+      (await fetchUsersSector(sectorActual.id).then((res) => {
+        setPersonal(res.data);
+      }));
+  };
+
+  const popularSolicitudes = async () => {
+    sectorActual &&
+      (await fetchSolicitudesCurrentSector(sectorActual.id).then((res) => {
+        let solicitudesProcesadas = procesarSolicitudes(res.data);
+        console.log(solicitudesProcesadas);
+        setSolicitudes(solicitudesProcesadas);
+      }));
+  };
 
   useEffect(() => {
-    console.log(mes);
-  }, [mes]);
+    popularSectores();
+  }, []);
+
+  useEffect(() => {
+    setSectorActual(sectores && sectores[0]);
+  }, [sectores]);
+
+  useEffect(() => {
+    popularPersonal();
+  }, [sectorActual]);
+
+  useEffect(() => {
+    popularSolicitudes();
+  }, [personal]);
+
+  // useEffect(() => {
+  //   console.log(mes);
+  // }, [mes]);
 
   return (
     <div className="flex h-full flex-col">
       {/* barra de arriba de las semanas */}
       <header className="flex flex-none items-center justify-between border-b border-gray-200 px-6 py-4">
-        <h1 className="text-base font-semibold leading-6 text-gray-900">
+        <h1 className="text-base flex font-semibold leading-6 text-gray-900">
           <select
-            value={meses[mes].nombre}
+            defaultValue={mes}
             onChange={(e) => {
               setMes(e.target.value);
             }}
             id="location"
             name="location"
-            className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+            className="mt-2 mr-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
           >
             {meses.map((mes, index) => {
               return (
                 <option value={index}>{mes.nombre + " " + mes.ano}</option>
               );
             })}
+          </select>
+
+          <select
+            defaultValue={0}
+            onChange={(e) => {
+              setSectorActual(sectores[e.target.value]);
+            }}
+            id="location"
+            name="location"
+            className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          >
+            {sectores &&
+              sectores.map((sector, index) => {
+                return <option value={index}>{sector.nombre}</option>;
+              })}
           </select>
         </h1>
         <div className="flex items-center">
@@ -56,23 +116,25 @@ export default function CalendarioConfirmacion() {
           className="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full"
         >
           {/* dias */}
-          <div className="sticky top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8">
+          <div className="sticky pl-[7rem] top-0 z-30 flex-none bg-white shadow ring-1 ring-black ring-opacity-5 sm:pr-8">
             <div
               className="-mr-px hidden grid-cols-[30] divide-x divide-gray-100 border-r border-gray-100 text-sm leading-6 text-gray-500 sm:grid"
               style={{
-                gridTemplateColumns: "repeat(30, minmax(1.7rem, 1.7rem))",
+                gridTemplateColumns:
+                  "repeat(" + meses[mes].dias + ", minmax(1.7rem, 1.7rem))",
               }}
             >
-              <div className="col-end-1 w-14" />
-
-              <div className="flex items-center justify-center py-3">
-                <span>
-                  Mon{" "}
-                  <span className="items-center justify-center font-semibold text-gray-900">
-                    10
-                  </span>
-                </span>
-              </div>
+              {[...Array(meses[mes].dias)].map((num, index) => {
+                return (
+                  <div>
+                    <div className="flex items-center justify-center py-3">
+                      <span className="items-center justify-center font-semibold text-gray-900">
+                        {"" + (index + 1)}
+                      </span>
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
 
@@ -125,12 +187,19 @@ export default function CalendarioConfirmacion() {
                   gridTemplateColumns: "repeat(30, minmax(1.7rem,1.7rem))",
                 }}
               >
-                <li
-                  className="relative mt-px flex sm:col-start-3"
-                  style={{ gridRow: "3 / span 1", gridColumn: "3 / span 7" }}
-                >
-                  <div className="bg-blue-400 w-full">asdf</div>
-                </li>
+                {solicitudes?.map(() => {
+                  return (
+                    <li
+                      className="relative mt-px flex sm:col-start-3"
+                      style={{
+                        gridRow: "3 / span 1",
+                        gridColumn: "3 / span 7",
+                      }}
+                    >
+                      <div className="bg-blue-400 w-full">asdf</div>
+                    </li>
+                  );
+                })}
               </ol>
             </div>
           </div>
