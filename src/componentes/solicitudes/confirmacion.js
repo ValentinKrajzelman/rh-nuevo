@@ -1,8 +1,8 @@
 import { fetchSolicitudesUser } from "../../api/solicitudesSolicitudes";
 import React, { useEffect, useState } from "react";
 import CalendarioConfirmacion from "./calendarioConfirmacion";
-import Modal from "./modal";
-import Tabla from "./tablaSolicitudes";
+import ModalConfirmacion from "./modalConfirmacion";
+import TablaConfirmacion from "./tablaConfirmacion";
 
 const Confirmacion = () => {
   const [tipo, setTipo] = useState("vacaciones");
@@ -23,7 +23,7 @@ const Confirmacion = () => {
 
   return (
     <div className="flex flex-col items-center w-full mt-5">
-      <Modal
+      <ModalConfirmacion
         visibilidad={visibilidad}
         solicitudModal={solicitudModal}
         setVisibilidad={setVisibilidad}
@@ -46,7 +46,7 @@ const Confirmacion = () => {
           </select>
         </div>
         <CalendarioConfirmacion />
-        <Tabla
+        <TablaConfirmacion
           solicitudes={solicitudesActuales}
           setVisibilidad={setVisibilidad}
           setSolicitudModal={setSolicitudModal}

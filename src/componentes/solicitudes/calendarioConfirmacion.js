@@ -35,7 +35,7 @@ export default function CalendarioConfirmacion() {
   const popularSolicitudes = async () => {
     sectorActual &&
       (await fetchSolicitudesCurrentSector(sectorActual.id).then((res) => {
-        let solicitudesProcesadas = procesarSolicitudes(res.data);
+        let solicitudesProcesadas = procesarSolicitudes(res.data, personal);
         console.log(solicitudesProcesadas);
         setSolicitudes(solicitudesProcesadas);
       }));
@@ -56,10 +56,6 @@ export default function CalendarioConfirmacion() {
   useEffect(() => {
     popularSolicitudes();
   }, [personal]);
-
-  // useEffect(() => {
-  //   console.log(mes);
-  // }, [mes]);
 
   return (
     <div className="flex h-full flex-col">
@@ -97,17 +93,6 @@ export default function CalendarioConfirmacion() {
               })}
           </select>
         </h1>
-        <div className="flex items-center">
-          <div className="hidden md:ml-4 md:flex md:items-center">
-            <div className="ml-6 h-6 w-px bg-gray-300" />
-            <button
-              type="button"
-              className="ml-6 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            >
-              Revision
-            </button>
-          </div>
-        </div>
       </header>
 
       <div className="isolate flex flex-auto flex-col overflow-auto bg-white">
@@ -150,15 +135,25 @@ export default function CalendarioConfirmacion() {
                   gridTemplateRows: "repeat(12, minmax(2.5rem,2.5rem))",
                 }}
               >
-                {[...Array(12)].map((num, index) => {
-                  return (
-                    <div className={"row-start-[" + index + 1 + "] h-[2.5rem]"}>
-                      <div className="sticky left-0 z-20 -ml-[8rem] w-[7rem] pr-2 text-xs leading-5 text-gray-400">
-                        valentin krajzelman
-                      </div>
-                    </div>
-                  );
-                })}
+                {solicitudes &&
+                  solicitudes
+                    .filter((solicitud) => {
+                      console.log(solicitud);
+                      return (
+                        solicitud.mesInicio == mes || solicitud.mesFin == mes
+                      );
+                    })
+                    .map((solicitud, index) => {
+                      return (
+                        <div
+                          className={"row-start-[" + index + 1 + "] h-[2.5rem]"}
+                        >
+                          <div className="sticky left-0 z-20 -ml-[8rem] w-[7rem] pr-2 text-xs leading-5 text-gray-400">
+                            {solicitud.nombre}
+                          </div>
+                        </div>
+                      );
+                    })}
                 <div>
                   <div className="sticky left-0 z-20 -ml-14 -mt-[0.9rem] w-14 pr-2 text-right text-xs leading-5 text-gray-400"></div>
                 </div>
@@ -172,7 +167,7 @@ export default function CalendarioConfirmacion() {
                 }}
               >
                 {/* esto es lo que renderiza los separadores grises verticales entre los dias, el array tiene que ser los dias del mes + 1 */}
-                {[...Array(31)].map((num, index) => {
+                {[...Array(meses[mes].dias)].map((num, index) => {
                   return (
                     <div className={"col-start-" + index + " row-span-full"} />
                   );
@@ -187,19 +182,45 @@ export default function CalendarioConfirmacion() {
                   gridTemplateColumns: "repeat(30, minmax(1.7rem,1.7rem))",
                 }}
               >
-                {solicitudes?.map(() => {
-                  return (
-                    <li
-                      className="relative mt-px flex sm:col-start-3"
-                      style={{
-                        gridRow: "3 / span 1",
-                        gridColumn: "3 / span 7",
-                      }}
-                    >
-                      <div className="bg-blue-400 w-full">asdf</div>
-                    </li>
-                  );
-                })}
+                {solicitudes &&
+                  solicitudes
+                    .filter((solicitud) => {
+                      console.log(solicitud);
+                      return (
+                        solicitud.mesInicio == mes || solicitud.mesFin == mes
+                      );
+                    })
+                    .map((solicitud, index) => {
+                      return (
+                        <li
+                          className="relative mt-px flex sm:col-start-3 p-1"
+                          style={{
+                            gridRow: index + 1 + " / span 1",
+                            gridColumn:
+                              (solicitud.mesInicio == mes &&
+                                solicitud.mesFin == mes &&
+                                solicitud.diaInicio +
+                                  " / " +
+                                  solicitud.diaFin) ||
+                              (solicitud.mesInicio == mes &&
+                                !(solicitud.mesFin == mes) &&
+                                solicitud.diaInicio +
+                                  " / " +
+                                  meses[mes].dias +
+                                  1) ||
+                              (!(solicitud.mesInicio == mes) &&
+                                solicitud.mesFin == mes &&
+                                " 1 / " + solicitud.diaFin),
+                          }}
+                        >
+                          <div className="bg-blue-400 w-full pl-5">
+                            {solicitud.fecha_inicio.slice(0, 10) +
+                              " - " +
+                              solicitud.fecha_fin.slice(0, 10)}
+                          </div>
+                        </li>
+                      );
+                    })}
               </ol>
             </div>
           </div>
