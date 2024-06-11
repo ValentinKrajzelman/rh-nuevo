@@ -3,8 +3,8 @@ import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
 
-import inicioDeSemana from "../../lib/inicioDeSemana";
-import feriados from "../../const/feriados";
+import inicioDeSemana from "../../../lib/inicioDeSemana";
+import feriados from "../../../const/feriados";
 
 // Assuming currentDate represents 10/7/2024
 const currentDate = new Date(); // Months are 0-indexed, so 9 represents October

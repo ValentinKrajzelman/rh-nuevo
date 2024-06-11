@@ -1,8 +1,8 @@
-import { fetchSolicitudesUser } from "../../api/solicitudesSolicitudes";
+import { fetchSolicitudesUser } from "../../../api/solicitudesSolicitudes";
 import React, { useEffect, useState } from "react";
 import CalendarioConfirmacion from "./calendarioConfirmacion";
 import ModalConfirmacion from "./modalConfirmacion";
-import TablaConfirmacion from "./tablaConfirmacion";
+// import TablaConfirmacion from "./tablaConfirmacion";
 
 const Confirmacion = () => {
   const [tipo, setTipo] = useState("vacaciones");
@@ -11,15 +11,6 @@ const Confirmacion = () => {
   const [solicitudModal, setSolicitudModal] = useState({});
   const [solicitudesActuales, setSolicitudes] = useState(null);
  
-  const currentSolicitudes = async () => {
-    await fetchSolicitudesUser(882).then((res) => {
-      setSolicitudes(res.data);
-    });
-  };
-
-  useEffect(() => {
-    currentSolicitudes();
-  }, []);
 
   return (
     <div className="flex flex-col items-center w-full mt-5">
@@ -46,11 +37,11 @@ const Confirmacion = () => {
           </select>
         </div>
         <CalendarioConfirmacion />
-        <TablaConfirmacion
+        {/* <TablaConfirmacion
           solicitudes={solicitudesActuales}
           setVisibilidad={setVisibilidad}
           setSolicitudModal={setSolicitudModal}
-        />
+        /> */}
       </div>
     </div>
   );

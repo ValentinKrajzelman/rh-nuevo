@@ -56,7 +56,12 @@ const Modal = ({ visibilidad, setVisibilidad, solicitudModal }) => {
                         Estado actual
                       </dt>
                       <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-                      {solicitudModal.estado}
+                      {(solicitudModal.estado == 0 && "Pendiente") ||
+                            (solicitudModal.estado == 0.25 && "Pendiente RH") ||
+                            (solicitudModal.estado == 0.75 &&
+                              "Pendiente Ger") ||
+                            (solicitudModal.estado == 1 && "Aprovada") ||
+                            (solicitudModal.estado < 0 && "Rechazada")}
                       </dd>
                     </div>
                     <div className="border-t border-gray-100 px-4 py-6 sm:col-span-1 sm:px-0">

@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
-import meses from "../../const/meses";
-import { fetchAllSectores } from "../../api/solicitudesSector";
-import { fetchSolicitudesCurrentSector } from "../../api/solicitudesSolicitudes";
-import procesarSolicitudes from "../../lib/procesarSolicitudes";
-import { fetchUsersSector } from "../../api/solicitudesUser";
+import meses from "../../../const/meses";
+import { fetchAllSectores } from "../../../api/solicitudesSector";
+import { fetchSolicitudesCurrentSector } from "../../../api/solicitudesSolicitudes";
+import procesarSolicitudes from "../../../lib/procesarSolicitudes";
+import { fetchUsersSector } from "../../../api/solicitudesUser";
+import Tabla from "./tablaConfirmacion";
+import Modal from "./modalConfirmacion";
 
 export default function CalendarioConfirmacion() {
   const currentDate = new Date();
@@ -18,6 +20,8 @@ export default function CalendarioConfirmacion() {
   const [sectorActual, setSectorActual] = useState();
   const [solicitudes, setSolicitudes] = useState();
   const [personal, setPersonal] = useState();
+  const [visibilidad, setVisibilidad] = useState(false);
+  const [solicitudModal, setSolicitudModal] = useState();
 
   const popularSectores = async () => {
     await fetchAllSectores().then((res) => {
@@ -58,7 +62,12 @@ export default function CalendarioConfirmacion() {
   }, [personal]);
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex pb-14 flex-col">
+      <Modal
+        visibilidad={visibilidad}
+        setVisibilidad={setVisibilidad}
+        solicitudModal={solicitudModal}
+      />
       {/* barra de arriba de las semanas */}
       <header className="flex flex-none items-center justify-between border-b border-gray-200 px-6 py-4">
         <h1 className="text-base flex font-semibold leading-6 text-gray-900">
@@ -132,13 +141,20 @@ export default function CalendarioConfirmacion() {
                   "col-start-1 col-end-2 row-start-1 grid divide-y divide-gray-100"
                 }
                 style={{
-                  gridTemplateRows: "repeat(12, minmax(2.5rem,2.5rem))",
+                  gridTemplateRows:
+                    "repeat(" +
+                    (solicitudes &&
+                      solicitudes.filter((solicitud) => {
+                        return (
+                          solicitud.mesInicio == mes || solicitud.mesFin == mes
+                        );
+                      }).length + 1) +
+                    ", minmax(2.5rem,2.5rem))",
                 }}
               >
                 {solicitudes &&
                   solicitudes
                     .filter((solicitud) => {
-                      console.log(solicitud);
                       return (
                         solicitud.mesInicio == mes || solicitud.mesFin == mes
                       );
@@ -178,7 +194,15 @@ export default function CalendarioConfirmacion() {
               <ol
                 className="col-start-1 col-end-2 row-start-1 grid"
                 style={{
-                  gridTemplateRows: "repeat(12, minmax(2.5rem,2.5rem))",
+                  gridTemplateRows:
+                    "repeat(" +
+                    (solicitudes &&
+                      solicitudes.filter((solicitud) => {
+                        return (
+                          solicitud.mesInicio == mes || solicitud.mesFin == mes
+                        );
+                      }).length + 1) +
+                    ", minmax(2.5rem,2.5rem))",
                   gridTemplateColumns: "repeat(30, minmax(1.7rem,1.7rem))",
                 }}
               >
@@ -226,6 +250,11 @@ export default function CalendarioConfirmacion() {
           </div>
         </div>
       </div>
+      <Tabla
+        solicitudes={solicitudes}
+        setVisibilidad={setVisibilidad}
+        setSolicitudModal={setSolicitudModal}
+      />
     </div>
   );
 }

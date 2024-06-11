@@ -4,8 +4,8 @@ import { useState, useRef, useEffect } from "react";
 import Navbar from "./componentes/navbar";
 import Inicio from "./componentes/inicio/inicio";
 import Dashboard from "./componentes/inicio/dashboard/dashboard";
-import Solicitudes from "./componentes/solicitudes/solicitudes";
-import Confirmacion from "./componentes/solicitudes/confirmacion";
+import Solicitudes from "./componentes/solicitudes/solicitud/solicitudes";
+import Confirmacion from "./componentes/solicitudes/confirmacion/confirmacion";
 
 
 function App() {

@@ -4,9 +4,9 @@ import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
 import VacacionesSemana from "./vacacionesSemana";
 import Tabla from "./tablaSolicitudes";
-import Modal from "./modal";
-import { fetchSolicitudesUser } from "../../api/solicitudesSolicitudes";
-import CalendarioSemanal from "../ejemplos/calendarioSemanal";
+import Modal from "./modalSolicitudes";
+import { fetchSolicitudesUser } from "../../../api/solicitudesSolicitudes";
+import CalendarioSemanal from "../../ejemplos/calendarioSemanal";
 
 
 const Solicitudes = () => {
