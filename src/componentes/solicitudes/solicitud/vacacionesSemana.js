@@ -130,10 +130,10 @@ const VacacionesSemana = () => {
             <div className="mb-5">
               <div className="font-bold">Dias usados</div>
               <div className="text-lg text-gray-600">
-                {solicitudesCor && cantidadDias(solicitudesCor)} dias
+                {(solicitudesCor[0] && cantidadDias(solicitudesCor))||0} dias
               </div>
               <div className="text-sm text-gray-600">
-                ({solicitudesCor && cantidadDias(solicitudesCor) / 5}) semanas
+                ({(solicitudesCor[0] && cantidadDias(solicitudesCor) / 5)||0}) semanas
               </div>
             </div>
             <div className="mb-5">

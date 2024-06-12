@@ -75,7 +75,7 @@ const Solicitudes = () => {
               <option>Vacaciones</option>
             </select>
           </div>
-          <button className=" ml-5 py-1.5 px-3 rounded-md text-sm text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2">
+          {responsable && <button className=" ml-5 py-1.5 px-3 rounded-md text-sm text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2">
             <a
               href={
                 "https://mmxapp2.mercomaxsa.com.ar/rh-nuevo/solicitudes/confirmacion/?a=" +
@@ -89,7 +89,7 @@ const Solicitudes = () => {
             >
               Confirmacion <ArrowUpRightIcon className="w-3 ml-2" />
             </a>
-          </button>
+          </button>}
         </div>
         <VacacionesSemana />
         <Tabla
