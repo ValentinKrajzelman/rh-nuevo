@@ -37,11 +37,6 @@ const Confirmacion = () => {
           </select>
         </div>
         <CalendarioConfirmacion />
-        {/* <TablaConfirmacion
-          solicitudes={solicitudesActuales}
-          setVisibilidad={setVisibilidad}
-          setSolicitudModal={setSolicitudModal}
-        /> */}
       </div>
     </div>
   );

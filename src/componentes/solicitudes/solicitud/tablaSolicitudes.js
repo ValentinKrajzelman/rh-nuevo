@@ -5,7 +5,6 @@ const Tabla = ({ solicitudes, setVisibilidad, setSolicitudModal }) => {
     setSolicitudModal(soli);
     setVisibilidad(true);
   };
-  console.log(solicitudes);
   return (
     <div className="px-4 sm:px-6 lg:px-8">
       <div className="mt-8 flow-root">

@@ -11,7 +11,7 @@ import Confirmacion from "./componentes/solicitudes/confirmacion/confirmacion";
 function App() {
   const [estado, setEstado] = useState(true);
   const ref = useRef(null);
-  console.log(ref);
+
 
   useEffect(()=>{
 

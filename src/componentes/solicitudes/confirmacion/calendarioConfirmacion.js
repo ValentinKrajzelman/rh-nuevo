@@ -237,7 +237,7 @@ export default function CalendarioConfirmacion() {
                                 " 1 / " + solicitud.diaFin),
                           }}
                         >
-                          <div className="bg-blue-400 w-full pl-5">
+                          <div className="bg-blue-400 text-xs w-full pl-5">
                             {solicitud.fecha_inicio.slice(0, 10) +
                               " - " +
                               solicitud.fecha_fin.slice(0, 10)}

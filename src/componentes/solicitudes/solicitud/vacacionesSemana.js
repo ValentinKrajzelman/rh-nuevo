@@ -5,50 +5,107 @@ import "react-calendar/dist/Calendar.css";
 
 import inicioDeSemana from "../../../lib/inicioDeSemana";
 import feriados from "../../../const/feriados";
+import { useLocation } from "react-router-dom";
+import { fetchOneUser } from "../../../api/solicitudesUser";
+import { fetchSolicitudesUserPeriodoCorriente } from "../../../api/solicitudesSolicitudes";
+import cantidadDias from "../../../lib/cantidadDias";
+import vacacionesLey from "../../../lib/vacacionesLey";
+import { fetchOneSector } from "../../../api/solicitudesSector";
+import esResponsable from "../../../lib/esResponsable";
 
-// Assuming currentDate represents 10/7/2024
-const currentDate = new Date(); // Months are 0-indexed, so 9 represents October
-
-// Get the current year
+const currentDate = new Date();
 const currentYear = currentDate.getFullYear();
-
-// Create a new Date object for the same date next year
 const nextYearDate = new Date(
   currentYear,
   currentDate.getMonth() + 6,
   currentDate.getDate()
 );
 
-
 const VacacionesSemana = () => {
   const [estado, setEstado] = useState("Seleccione la semana para solicitar.");
   const [value, onChange] = useState(null);
-  
-  const iniSem = feriados;
-  
-  
+  const [user, setUser] = useState();
+  const [userSolicitudes, setUserSolicitudes] = useState();
+  const [responsable, setResponsable] = useState(false);
+  const [solicitudesCor, setSolicitudesCor] = useState(false);
+  const [sectorUser, setSectorUser] = useState();
+
+  let location = useLocation();
+
+  useEffect(() => {
+    let urlParams = new URLSearchParams(window.location.search);
+    let nombre = urlParams.get("a");
+    let apellido = urlParams.get("b");
+    let legajo = urlParams.get("c");
+    setUser({
+      nombre: nombre,
+      apellido: apellido,
+      legajo: legajo,
+    });
+    if (esResponsable(legajo)) {
+      setResponsable(true);
+    }
+  }, [location]);
+
+  const datosUser = async () => {
+    user &&
+      (await fetchOneUser(Number.parseInt(user.legajo)).then((res) => {
+        setUserSolicitudes(res.data[0]);
+      }));
+  };
+  const solPerCor = async () => {
+    userSolicitudes &&
+      (await fetchSolicitudesUserPeriodoCorriente(
+        Number.parseInt(user.legajo)
+      ).then((res) => {
+        setSolicitudesCor(res.data);
+      }));
+  };
+  const sector = async () => {
+    userSolicitudes &&
+      (await fetchOneSector(userSolicitudes.id_sector).then((res) => {
+        console.log(res.data);
+        setSectorUser(res.data[0]);
+      }));
+  };
+
+  useEffect(() => {
+    datosUser();
+  }, [user]);
+
+  useEffect(() => {
+    solPerCor();
+  }, [userSolicitudes]);
+
+  useEffect(() => {
+    sector();
+  }, [userSolicitudes]);
+
   useEffect(() => {
     if (!value) {
     } else if (
-      Math.round(((value[1] - value[0]) / (1000 * 60 * 60 * 24)))% 7 == 0 &&
-      inicioDeSemana(iniSem,value[0])
+      Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24)) % 7 == 0 &&
+      inicioDeSemana(feriados, value[0])
     ) {
       setEstado(
         <div className="text-green-600 mb-3">
           <div>*Todo ok. Selecciono:</div>
-          <div> ({Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24))}) Dia(s)</div>
+          <div>
+            {" "}
+            ({Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24))}) Dia(s)
+          </div>
         </div>
       );
     } else if (
-      !(Math.round(((value[1] - value[0]) / (1000 * 60 * 60 * 24)))% 7 == 0) ||
-      !inicioDeSemana(iniSem,value[0])
+      !(Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24)) % 7 == 0) ||
+      !inicioDeSemana(feriados, value[0])
     ) {
       setEstado(
         <div className="text-red-600 mb-3 w-full">
           <div>
-            *Error. Fechas elegidas no validas. 
-            -No se puede iniciar las vacaciones a mitad de semana. 
-            -Solo semanas completas de corrido (7, 14, 21, etc).
+            *Error. Fechas elegidas no validas. -No se puede iniciar las
+            vacaciones a mitad de semana. -Solo semanas completas de corrido (7,
+            14, 21, etc).
           </div>
         </div>
       );
@@ -58,29 +115,52 @@ const VacacionesSemana = () => {
   return (
     <div className="border-2 rounded-xl p-5 m-5">
       <div className="flex justify-between">
-        <div className="flex flex-col">
-          <div className="mb-10">
-            <div className="text-2xl font-bold">Dias disponibles</div>
-            <div className="text-3xl text-green-500">28 Dias</div>
-            <div className="text-sm text-gray-600">(4) semanas</div>
-          </div>
-          <div className="mb-5">
-            <div className="font-bold">Dias usados</div>
-            <div className="text-lg text-gray-600">14 dias</div>
-            <div className="text-sm text-gray-600">(2) semanas</div>
-          </div>
-          <div className="mb-5">
-            <div className="font-bold">Fecha de ingreso</div>
-            <div className="text-lg text-gray-600">24/7/2020</div>
-            <div className="text-lg text-gray-600">(>29 años)</div>
-          </div>
-          <div className="mb-5">
-            <div className="font-bold">Vacaciones por ley</div>
-            <div className="text-lg text-gray-600">
-              20 <div className="text-sm text-gray-600">(dias/año)</div>
+        {userSolicitudes && (
+          <div className="flex flex-col">
+            <div className="mb-10">
+              <div className="text-2xl font-bold">Dias disponibles</div>
+              <div className="text-3xl text-green-500">
+                {" "}
+                {userSolicitudes.dias} Dias
+              </div>
+              <div className="text-sm text-gray-600">
+                ({userSolicitudes.dias / 5}) semanas
+              </div>
+            </div>
+            <div className="mb-5">
+              <div className="font-bold">Dias usados</div>
+              <div className="text-lg text-gray-600">
+                {solicitudesCor && cantidadDias(solicitudesCor)} dias
+              </div>
+              <div className="text-sm text-gray-600">
+                ({solicitudesCor && cantidadDias(solicitudesCor) / 5}) semanas
+              </div>
+            </div>
+            <div className="mb-5">
+              <div className="font-bold">Fecha de ingreso</div>
+              <div className="text-lg text-gray-600">
+                {userSolicitudes.fecha_ingreso.substring(0, 10)}
+              </div>
+              <div className="text-lg text-gray-600">
+                (
+                {(
+                  ">" +
+                  ((Date.now() - Date.parse(userSolicitudes.fecha_ingreso)) /
+                    (1000 * 60 * 60 * 24 * 365) +
+                    1)
+                ).substring(0, 2)}{" "}
+                años)
+              </div>
+            </div>
+            <div className="mb-5">
+              <div className="font-bold">Vacaciones por ley</div>
+              {vacacionesLey(
+                (Date.now() - Date.parse(userSolicitudes.fecha_ingreso)) /
+                  (1000 * 60 * 60 * 24)
+              )}{" "}
             </div>
           </div>
-        </div>
+        )}
         <div className="flex flex-col">
           {" "}
           <div className="text-sm w-[20rem]">{estado}</div>
@@ -102,11 +182,13 @@ const VacacionesSemana = () => {
           <div>
             <div className="mb-5">
               <div className="font-bold">Responsable (sector)</div>
-              <div className="text-xl">Daniela</div>
+              <div className="text-xl">{sectorUser && sectorUser.delegado}</div>
             </div>
             <div className="mb-5">
               <div className="font-bold">Responsable (RRHH)</div>
-              <div className="text-xl">Karina</div>
+              <div className="text-xl">
+                {sectorUser && sectorUser.delegado_rh}
+              </div>
             </div>
           </div>
           <div className="flex flex-col items-center">
