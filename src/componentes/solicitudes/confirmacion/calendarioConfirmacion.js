@@ -45,6 +45,11 @@ export default function CalendarioConfirmacion() {
       }));
   };
 
+  const aModal = (soli) => {
+    setSolicitudModal(soli);
+    setVisibilidad(true);
+  };
+
   useEffect(() => {
     popularSectores();
   }, []);
@@ -209,15 +214,15 @@ export default function CalendarioConfirmacion() {
                 {solicitudes &&
                   solicitudes
                     .filter((solicitud) => {
-                      console.log(solicitud);
                       return (
                         solicitud.mesInicio == mes || solicitud.mesFin == mes
                       );
                     })
                     .map((solicitud, index) => {
+
                       return (
                         <li
-                          className="relative mt-px flex sm:col-start-3 p-1"
+                          className="relative mt-px flex sm:col-start-3"
                           style={{
                             gridRow: index + 1 + " / span 1",
                             gridColumn:
@@ -225,23 +230,36 @@ export default function CalendarioConfirmacion() {
                                 solicitud.mesFin == mes &&
                                 solicitud.diaInicio +
                                   " / " +
-                                  solicitud.diaFin) ||
+                                  (solicitud.diaFin + 1)) ||
                               (solicitud.mesInicio == mes &&
                                 !(solicitud.mesFin == mes) &&
                                 solicitud.diaInicio +
                                   " / " +
-                                  meses[mes].dias +
-                                  1) ||
+                                  (meses[mes].dias + 1)) ||
                               (!(solicitud.mesInicio == mes) &&
                                 solicitud.mesFin == mes &&
                                 " 1 / " + solicitud.diaFin),
                           }}
                         >
-                          <div className="bg-blue-400 text-xs w-full pl-5">
+                          <button
+                            className="w-full h-full text-xs p-1 "
+                            style={{
+                              backgroundColor:
+                                ((solicitud.estado == 0.25 ||
+                                  solicitud.estado == 0.75) &&
+                                  "rgb(37 99 235 / var(--tw-bg-opacity))") ||
+                                (solicitud.estado == 1 && "rgb(22 163 74 / var(--tw-bg-opacity))") ||
+                                (solicitud.estado == 0 && "rgb(203 213 225 / var(--tw-bg-opacity))") ||
+                                (solicitud.estado == -1 && "rgb(220 38 38 / var(--tw-bg-opacity))"),
+                            }}
+                            onClick={() => {
+                              aModal(solicitud);
+                            }}
+                          >
                             {solicitud.fecha_inicio.slice(0, 10) +
                               " - " +
                               solicitud.fecha_fin.slice(0, 10)}
-                          </div>
+                          </button>
                         </li>
                       );
                     })}

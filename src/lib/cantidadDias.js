@@ -5,7 +5,7 @@ const cantidadDias = (arr) => {
       (1000 * 60 * 60 * 24)
     );
   });
-  return aux.reduce((accumulator, currentValue) => accumulator + currentValue);
+  return Math.round(aux.reduce((accumulator, currentValue) => accumulator + currentValue));
 };
 export default cantidadDias;
 

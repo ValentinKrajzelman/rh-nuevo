@@ -2,15 +2,20 @@ import React, { useEffect, useRef, useState } from "react";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
+import { useLocation } from "react-router-dom";
+
+import feriados from "../../../const/feriados";
+
+import { fetchOneUser } from "../../../api/solicitudesUser";
+import {
+  fetchSolicitudesPost,
+  fetchSolicitudesUserPeriodoCorriente,
+} from "../../../api/solicitudesSolicitudes";
+import { fetchOneSector } from "../../../api/solicitudesSector";
 
 import inicioDeSemana from "../../../lib/inicioDeSemana";
-import feriados from "../../../const/feriados";
-import { useLocation } from "react-router-dom";
-import { fetchOneUser } from "../../../api/solicitudesUser";
-import { fetchSolicitudesUserPeriodoCorriente } from "../../../api/solicitudesSolicitudes";
 import cantidadDias from "../../../lib/cantidadDias";
 import vacacionesLey from "../../../lib/vacacionesLey";
-import { fetchOneSector } from "../../../api/solicitudesSector";
 import esResponsable from "../../../lib/esResponsable";
 
 const currentDate = new Date();
@@ -21,7 +26,7 @@ const nextYearDate = new Date(
   currentDate.getDate()
 );
 
-const VacacionesSemana = () => {
+const VacacionesSemana = (solicitudes) => {
   const [estado, setEstado] = useState("Seleccione la semana para solicitar.");
   const [value, onChange] = useState(null);
   const [user, setUser] = useState();
@@ -47,28 +52,6 @@ const VacacionesSemana = () => {
     }
   }, [location]);
 
-  const datosUser = async () => {
-    user &&
-      (await fetchOneUser(Number.parseInt(user.legajo)).then((res) => {
-        setUserSolicitudes(res.data[0]);
-      }));
-  };
-  const solPerCor = async () => {
-    userSolicitudes &&
-      (await fetchSolicitudesUserPeriodoCorriente(
-        Number.parseInt(user.legajo)
-      ).then((res) => {
-        setSolicitudesCor(res.data);
-      }));
-  };
-  const sector = async () => {
-    userSolicitudes &&
-      (await fetchOneSector(userSolicitudes.id_sector).then((res) => {
-        console.log(res.data);
-        setSectorUser(res.data[0]);
-      }));
-  };
-
   useEffect(() => {
     datosUser();
   }, [user]);
@@ -87,30 +70,76 @@ const VacacionesSemana = () => {
       Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24)) % 7 == 0 &&
       inicioDeSemana(feriados, value[0])
     ) {
-      setEstado(
-        <div className="text-green-600 mb-3">
-          <div>*Todo ok. Selecciono:</div>
-          <div>
-            {" "}
-            ({Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24))}) Dia(s)
+      console.log((''+value[0]));
+      setEstado({
+        estado: true,
+        mensaje: (
+          <div className="text-green-600 mb-3">
+            <div>*Todo ok. Selecciono:</div>
+            <div>
+              {" "}
+              ({Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24))})
+              Dia(s)
+            </div>
           </div>
-        </div>
-      );
+        ),
+      });
     } else if (
       !(Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24)) % 7 == 0) ||
       !inicioDeSemana(feriados, value[0])
     ) {
-      setEstado(
-        <div className="text-red-600 mb-3 w-full">
-          <div>
-            *Error. Fechas elegidas no validas. -No se puede iniciar las
-            vacaciones a mitad de semana. -Solo semanas completas de corrido (7,
-            14, 21, etc).
+      setEstado({
+        estado: false,
+        mensaje: (
+          <div className="text-red-600 mb-3 w-full">
+            <div>
+              *Error. Fechas elegidas no validas. -No se puede iniciar las
+              vacaciones a mitad de semana. -Solo semanas completas de corrido
+              (7, 14, 21, etc).
+            </div>
           </div>
-        </div>
-      );
+        ),
+      });
     }
   }, [value]);
+
+  const datosUser = async () => {
+    user &&
+      (await fetchOneUser(Number.parseInt(user.legajo)).then((res) => {
+        setUserSolicitudes(res.data[0]);
+      }));
+  };
+  const solPerCor = async () => {
+    userSolicitudes &&
+      (await fetchSolicitudesUserPeriodoCorriente(
+        Number.parseInt(user.legajo)
+      ).then((res) => {
+        setSolicitudesCor(res.data);
+      }));
+  };
+  const sector = async () => {
+    userSolicitudes &&
+      (await fetchOneSector(userSolicitudes.id_sector).then((res) => {
+        // console.log(res.data);
+        setSectorUser(res.data[0]);
+      }));
+  };
+
+  const submitSolicitud = async () => {
+    const nueSol = {
+      nro: solicitudes.solicitudes.length + 1,
+      id_usuario: userSolicitudes.id,
+      id_sector: userSolicitudes.id_sector,
+      tipo: "vacaciones",
+      mensaje: "",
+      fecha_inicio: new Date((''+value[0]).substring(0, 16)+" 00:00:00 GMT-0000 (Argentina Standard Time)"),
+      fecha_fin: new Date((''+value[1]).substring(0, 16)+" 23:59:59 GMT-0000 (Argentina Standard Time)"),
+    };
+    estado.estado &&
+      (await fetchSolicitudesPost(nueSol).then((res) => {
+        console.log(res.data);
+      }));
+  };
 
   return (
     <div className="border-2 rounded-xl p-5 m-5">
@@ -130,10 +159,11 @@ const VacacionesSemana = () => {
             <div className="mb-5">
               <div className="font-bold">Dias usados</div>
               <div className="text-lg text-gray-600">
-                {(solicitudesCor[0] && cantidadDias(solicitudesCor))||0} dias
+                {(solicitudesCor[0] && cantidadDias(solicitudesCor)) || 0} dias
               </div>
               <div className="text-sm text-gray-600">
-                ({(solicitudesCor[0] && cantidadDias(solicitudesCor) / 5)||0}) semanas
+                ({(solicitudesCor[0] && cantidadDias(solicitudesCor) / 7) || 0})
+                semanas
               </div>
             </div>
             <div className="mb-5">
@@ -144,7 +174,7 @@ const VacacionesSemana = () => {
               <div className="text-lg text-gray-600">
                 (
                 {(
-                  ">" +
+                  "<" +
                   ((Date.now() - Date.parse(userSolicitudes.fecha_ingreso)) /
                     (1000 * 60 * 60 * 24 * 365) +
                     1)
@@ -163,7 +193,7 @@ const VacacionesSemana = () => {
         )}
         <div className="flex flex-col">
           {" "}
-          <div className="text-sm w-[20rem]">{estado}</div>
+          <div className="text-sm w-[20rem]">{estado.mensaje}</div>
           <div>
             <DateRangePicker
               onChange={onChange}
@@ -193,7 +223,12 @@ const VacacionesSemana = () => {
           </div>
           <div className="flex flex-col items-center">
             <div className="flex flex-col items-center mb-5">
-              <button className="bg-green-500 text-xl rounded-xl text-white font-bold p-5">
+              <button
+                onClick={() => {
+                  submitSolicitud();
+                }}
+                className="bg-green-500 text-xl rounded-xl text-white font-bold p-5"
+              >
                 Enviar
               </button>
               <div className="text-xs">*a revision por rrhh</div>

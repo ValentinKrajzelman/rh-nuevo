@@ -41,14 +41,15 @@ const Solicitudes = () => {
   }, [location]);
 
   const currentSolicitudes = async () => {
-    await fetchSolicitudesUser(882).then((res) => {
+    user &&
+    await fetchSolicitudesUser(Number.parseInt(user.legajo)).then((res) => {
       setSolicitudes(res.data);
     });
   };
 
   useEffect(() => {
     currentSolicitudes();
-  }, []);
+  }, [user]);
 
   return (
     <div className="flex flex-col items-center w-full mt-5">
@@ -91,7 +92,7 @@ const Solicitudes = () => {
             </a>
           </button>}
         </div>
-        <VacacionesSemana />
+        <VacacionesSemana solicitudes={solicitudesActuales}/>
         <Tabla
           solicitudes={solicitudesActuales}
           setVisibilidad={setVisibilidad}
