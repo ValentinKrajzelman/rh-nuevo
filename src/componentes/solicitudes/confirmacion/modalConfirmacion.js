@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import {
   EllipsisHorizontalIcon,
@@ -8,6 +8,14 @@ import {
 } from "@heroicons/react/24/outline";
 
 const Modal = ({ visibilidad, setVisibilidad, solicitudModal }) => {
+  const [texto, setTexto] = useState("");
+
+  useEffect(() => {
+    solicitudModal && setTexto(solicitudModal.mensaje);
+  }, [solicitudModal]);
+
+  console.log(solicitudModal)
+
   return (
     <Transition.Root show={visibilidad} as={Fragment}>
       {solicitudModal && (
@@ -17,6 +25,7 @@ const Modal = ({ visibilidad, setVisibilidad, solicitudModal }) => {
           onClose={() => {
             setVisibilidad(false);
           }}
+          
         >
           <Transition.Child
             as={Fragment}
@@ -87,7 +96,15 @@ const Modal = ({ visibilidad, setVisibilidad, solicitudModal }) => {
                           Mensaje
                         </dt>
                         <dd className="mt-1 text-sm leading-6 text-gray-700 sm:mt-2">
-                          {solicitudModal.mensaje}
+                          <textarea
+                            value={texto}
+                            onChange={(e) => {
+                              setTexto(e.target.value);
+                            }}
+                            rows="10"
+                            cols="50"
+                          ></textarea>
+                          {/* {solicitudModal.mensaje} */}
                         </dd>
                       </div>
                       <div className="border-t w-full flex flex-row items-end justify-end border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
