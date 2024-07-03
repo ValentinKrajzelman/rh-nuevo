@@ -1,16 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import DateRangePicker from "@wojtekmaj/react-daterange-picker";
 import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
+import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
 import "react-calendar/dist/Calendar.css";
+
 import VacacionesSemana from "./vacacionesSemana";
 import Tabla from "./tablaSolicitudes";
 import Modal from "./modalSolicitudes";
 import { fetchSolicitudesUser } from "../../../api/solicitudesSolicitudes";
 import CalendarioSemanal from "../../ejemplos/calendarioSemanal";
-import esResponsable from "../../../lib/esResponsable";
-import { useLocation } from "react-router-dom";
 import responsables from "../../../const/responsablesLegajos";
-import { ArrowUpRightIcon } from "@heroicons/react/24/solid";
 
 const Solicitudes = () => {
   const [tipo, setTipo] = useState("vacaciones");
@@ -42,9 +42,9 @@ const Solicitudes = () => {
 
   const currentSolicitudes = async () => {
     user &&
-    await fetchSolicitudesUser(Number.parseInt(user.legajo)).then((res) => {
-      setSolicitudes(res.data);
-    });
+      (await fetchSolicitudesUser(Number.parseInt(user.legajo)).then((res) => {
+        setSolicitudes(res.data);
+      }));
   };
 
   useEffect(() => {
@@ -76,23 +76,25 @@ const Solicitudes = () => {
               <option>Vacaciones</option>
             </select>
           </div>
-          {responsable && <button className=" ml-5 py-1.5 px-3 rounded-md text-sm text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2">
-            <a
-              href={
-                "https://mmxapp2.mercomaxsa.com.ar/rh-nuevo/solicitudes/confirmacion/?a=" +
-                user.nombre +
-                "&b=" +
-                user.apellido +
-                "&c=" +
-                user.legajo
-              }
-              className="flex items-center"
-            >
-              Confirmacion <ArrowUpRightIcon className="w-3 ml-2" />
-            </a>
-          </button>}
+          {responsable && (
+            <button className=" ml-5 py-1.5 px-3 rounded-md text-sm text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2">
+              <a
+                href={
+                  "https://mmxapp2.mercomaxsa.com.ar/rh-nuevo/solicitudes/confirmacion/?a=" +
+                  user.nombre +
+                  "&b=" +
+                  user.apellido +
+                  "&c=" +
+                  user.legajo
+                }
+                className="flex items-center"
+              >
+                Confirmacion <ArrowUpRightIcon className="w-3 ml-2" />
+              </a>
+            </button>
+          )}
         </div>
-        <VacacionesSemana solicitudes={solicitudesActuales}/>
+        <VacacionesSemana solicitudes={solicitudesActuales} />
         <Tabla
           solicitudes={solicitudesActuales}
           setVisibilidad={setVisibilidad}

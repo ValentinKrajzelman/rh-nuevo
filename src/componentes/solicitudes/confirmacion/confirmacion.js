@@ -2,22 +2,43 @@ import { fetchSolicitudesUser } from "../../../api/solicitudesSolicitudes";
 import React, { useEffect, useState } from "react";
 import CalendarioConfirmacion from "./calendarioConfirmacion";
 import ModalConfirmacion from "./modalConfirmacion";
+import responsables from "../../../const/responsablesLegajos";
+import { useLocation } from "react-router-dom";
 // import TablaConfirmacion from "./tablaConfirmacion";
 
 const Confirmacion = () => {
-  const [tipo, setTipo] = useState("vacaciones");
-  const [sector, setSector] = useState(false);
+  // const [tipo, setTipo] = useState("vacaciones");
+  // const [sector, setSector] = useState(false);
   const [visibilidad, setVisibilidad] = useState(false);
   const [solicitudModal, setSolicitudModal] = useState({});
-  const [solicitudesActuales, setSolicitudes] = useState(null);
- 
+  const [responsable, setResponsable] = useState(false);
+  const [user, setUser] = useState(false);
+  // const [solicitudesActuales, setSolicitudes] = useState(null);
+  let location = useLocation();
 
+  useEffect(() => {
+    let urlParams = new URLSearchParams(window.location.search);
+    let nombre = urlParams.get("a");
+    let apellido = urlParams.get("b");
+    let legajo = urlParams.get("c");
+    setUser({
+      nombre: nombre,
+      apellido: apellido,
+      legajo: legajo,
+    });
+    setResponsable(
+      responsables.filter((responsable) => {
+        return responsable.legajo == legajo;
+      })[0]
+    );
+  }, [location]);
   return (
     <div className="flex flex-col items-center w-full mt-5">
       <ModalConfirmacion
         visibilidad={visibilidad}
         solicitudModal={solicitudModal}
         setVisibilidad={setVisibilidad}
+        responsable={responsable}
       />
       <div className="w-[60rem]">
         <div className="w-[10rem]">
@@ -36,7 +57,7 @@ const Confirmacion = () => {
             <option>Vacaciones</option>
           </select>
         </div>
-        <CalendarioConfirmacion />
+        <CalendarioConfirmacion responsable={responsable} />
       </div>
     </div>
   );

@@ -7,14 +7,15 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 
-const Modal = ({ visibilidad, setVisibilidad, solicitudModal }) => {
+const Modal = ({ visibilidad, setVisibilidad, solicitudModal, responsable }) => {
   const [texto, setTexto] = useState("");
 
   useEffect(() => {
+    // console.log(solicitudModal)
     solicitudModal && setTexto(solicitudModal.mensaje);
   }, [solicitudModal]);
 
-  console.log(solicitudModal)
+  // console.log(solicitudModal)
 
   return (
     <Transition.Root show={visibilidad} as={Fragment}>

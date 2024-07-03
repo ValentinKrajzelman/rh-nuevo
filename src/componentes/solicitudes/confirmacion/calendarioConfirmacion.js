@@ -7,25 +7,37 @@ import { fetchUsersSector } from "../../../api/solicitudesUser";
 import Tabla from "./tablaConfirmacion";
 import Modal from "./modalConfirmacion";
 
-export default function CalendarioConfirmacion() {
+export default function CalendarioConfirmacion({ responsable }) {
   const currentDate = new Date();
   const dateString = currentDate.toDateString();
 
+  const [sectores, setSectores] = useState();
+  const [sectorActual, setSectorActual] = useState();
+  const [sectorFiltrado, setSectorFiltrado] = useState();
+  const [solicitudes, setSolicitudes] = useState();
+  const [personal, setPersonal] = useState();
+  const [visibilidad, setVisibilidad] = useState(false);
+  const [solicitudModal, setSolicitudModal] = useState();
   const [mes, setMes] = useState(
     meses.findIndex((mesAct, index) => {
       return dateString.includes(mesAct.mes) && dateString.includes(mesAct.ano);
     })
   );
-  const [sectores, setSectores] = useState();
-  const [sectorActual, setSectorActual] = useState();
-  const [solicitudes, setSolicitudes] = useState();
-  const [personal, setPersonal] = useState();
-  const [visibilidad, setVisibilidad] = useState(false);
-  const [solicitudModal, setSolicitudModal] = useState();
-
+  console.log(sectorFiltrado, responsable )
   const popularSectores = async () => {
+
+    responsable &&
     await fetchAllSectores().then((res) => {
-      setSectores(res.data);
+      setSectorFiltrado(
+        res.data.filter((sector) => {
+          console.log(responsable, sector)
+          if (responsable.legajo == sector.legajo_delegado_rh) {
+            return true;
+          } else if (responsable.legajo == sector.legajo_delegado) {
+            return true;
+          } else return false;
+        })
+      );
     });
   };
 
@@ -52,7 +64,7 @@ export default function CalendarioConfirmacion() {
 
   useEffect(() => {
     popularSectores();
-  }, []);
+  }, [responsable]);
 
   useEffect(() => {
     setSectorActual(sectores && sectores[0]);
@@ -101,8 +113,8 @@ export default function CalendarioConfirmacion() {
             name="location"
             className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
           >
-            {sectores &&
-              sectores.map((sector, index) => {
+            {sectorFiltrado &&
+              sectorFiltrado.map((sector, index) => {
                 return <option value={index}>{sector.nombre}</option>;
               })}
           </select>
@@ -219,7 +231,6 @@ export default function CalendarioConfirmacion() {
                       );
                     })
                     .map((solicitud, index) => {
-
                       return (
                         <li
                           className="relative mt-px flex sm:col-start-3"
@@ -248,9 +259,12 @@ export default function CalendarioConfirmacion() {
                                 ((solicitud.estado == 0.25 ||
                                   solicitud.estado == 0.75) &&
                                   "rgb(37 99 235 / var(--tw-bg-opacity))") ||
-                                (solicitud.estado == 1 && "rgb(22 163 74 / var(--tw-bg-opacity))") ||
-                                (solicitud.estado == 0 && "rgb(203 213 225 / var(--tw-bg-opacity))") ||
-                                (solicitud.estado == -1 && "rgb(220 38 38 / var(--tw-bg-opacity))"),
+                                (solicitud.estado == 1 &&
+                                  "rgb(22 163 74 / var(--tw-bg-opacity))") ||
+                                (solicitud.estado == 0 &&
+                                  "rgb(203 213 225 / var(--tw-bg-opacity))") ||
+                                (solicitud.estado == -1 &&
+                                  "rgb(220 38 38 / var(--tw-bg-opacity))"),
                             }}
                             onClick={() => {
                               aModal(solicitud);

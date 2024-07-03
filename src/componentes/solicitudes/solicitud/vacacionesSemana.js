@@ -4,6 +4,7 @@ import "@wojtekmaj/react-daterange-picker/dist/DateRangePicker.css";
 import "react-calendar/dist/Calendar.css";
 import { useLocation } from "react-router-dom";
 
+import responsables from "../../../const/responsablesLegajos";
 import feriados from "../../../const/feriados";
 
 import { fetchOneUser } from "../../../api/solicitudesUser";
@@ -16,7 +17,7 @@ import { fetchOneSector } from "../../../api/solicitudesSector";
 import inicioDeSemana from "../../../lib/inicioDeSemana";
 import cantidadDias from "../../../lib/cantidadDias";
 import vacacionesLey from "../../../lib/vacacionesLey";
-import esResponsable from "../../../lib/esResponsable";
+
 
 const currentDate = new Date();
 const currentYear = currentDate.getFullYear();
@@ -47,9 +48,11 @@ const VacacionesSemana = (solicitudes) => {
       apellido: apellido,
       legajo: legajo,
     });
-    if (esResponsable(legajo)) {
-      setResponsable(true);
-    }
+    setResponsable(
+      responsables.find((responsable) => {
+        return responsable.legajo == legajo;
+      }) && true
+    );
   }, [location]);
 
   useEffect(() => {
