@@ -12,10 +12,10 @@ export default function CalendarioConfirmacion({ responsable }) {
   const dateString = currentDate.toDateString();
 
   const [sectores, setSectores] = useState();
-  const [sectorActual, setSectorActual] = useState();
-  const [sectorFiltrado, setSectorFiltrado] = useState();
-  const [solicitudes, setSolicitudes] = useState();
-  const [personal, setPersonal] = useState();
+  const [sectorActual, setSectorActual] = useState();     
+  const [sectorFiltrado, setSectorFiltrado] = useState(); 
+  const [solicitudes, setSolicitudes] = useState();       
+  const [personal, setPersonal] = useState();             
   const [visibilidad, setVisibilidad] = useState(false);
   const [solicitudModal, setSolicitudModal] = useState();
   const [mes, setMes] = useState(
@@ -23,14 +23,14 @@ export default function CalendarioConfirmacion({ responsable }) {
       return dateString.includes(mesAct.mes) && dateString.includes(mesAct.ano);
     })
   );
-  console.log(sectorFiltrado, responsable )
+
   const popularSectores = async () => {
 
     responsable &&
     await fetchAllSectores().then((res) => {
       setSectorFiltrado(
         res.data.filter((sector) => {
-          console.log(responsable, sector)
+          // console.log(responsable, sector)
           if (responsable.legajo == sector.legajo_delegado_rh) {
             return true;
           } else if (responsable.legajo == sector.legajo_delegado) {
@@ -52,7 +52,7 @@ export default function CalendarioConfirmacion({ responsable }) {
     sectorActual &&
       (await fetchSolicitudesCurrentSector(sectorActual.id).then((res) => {
         let solicitudesProcesadas = procesarSolicitudes(res.data, personal);
-        console.log(solicitudesProcesadas);
+        // console.log(solicitudesProcesadas);
         setSolicitudes(solicitudesProcesadas);
       }));
   };
@@ -84,6 +84,7 @@ export default function CalendarioConfirmacion({ responsable }) {
         visibilidad={visibilidad}
         setVisibilidad={setVisibilidad}
         solicitudModal={solicitudModal}
+        responsable={responsable}
       />
       {/* barra de arriba de las semanas */}
       <header className="flex flex-none items-center justify-between border-b border-gray-200 px-6 py-4">
@@ -107,7 +108,7 @@ export default function CalendarioConfirmacion({ responsable }) {
           <select
             defaultValue={0}
             onChange={(e) => {
-              setSectorActual(sectores[e.target.value]);
+              setSectorActual(sectorFiltrado[e.target.value]);
             }}
             id="location"
             name="location"

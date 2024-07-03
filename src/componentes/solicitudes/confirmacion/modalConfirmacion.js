@@ -6,8 +6,14 @@ import {
   ArrowDownTrayIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
+import { fetchSolicitudesUpdate } from "../../../api/solicitudesSolicitudes";
 
-const Modal = ({ visibilidad, setVisibilidad, solicitudModal, responsable }) => {
+const Modal = ({
+  visibilidad,
+  setVisibilidad,
+  solicitudModal,
+  responsable,
+}) => {
   const [texto, setTexto] = useState("");
 
   useEffect(() => {
@@ -15,7 +21,16 @@ const Modal = ({ visibilidad, setVisibilidad, solicitudModal, responsable }) => 
     solicitudModal && setTexto(solicitudModal.mensaje);
   }, [solicitudModal]);
 
-  // console.log(solicitudModal)
+  const confirmar = (estado) => {
+    let aux = 0;
+    if (responsable.id_sector == solicitudModal.id_sector) aux += 0.25;
+    if (responsable.rh) aux += 0.75;
+    const solicitudNueva = { ...solicitudModal, estado: aux };
+    console.log(solicitudNueva)
+    
+    // fetchSolicitudesUpdate(solicitudNueva);
+  };
+
 
   return (
     <Transition.Root show={visibilidad} as={Fragment}>
@@ -26,7 +41,6 @@ const Modal = ({ visibilidad, setVisibilidad, solicitudModal, responsable }) => 
           onClose={() => {
             setVisibilidad(false);
           }}
-          
         >
           <Transition.Child
             as={Fragment}
@@ -109,10 +123,20 @@ const Modal = ({ visibilidad, setVisibilidad, solicitudModal, responsable }) => 
                         </dd>
                       </div>
                       <div className="border-t w-full flex flex-row items-end justify-end border-gray-100 px-4 py-6 sm:col-span-2 sm:px-0">
-                        <button className="rounded-md bg-green-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
+                        <button
+                          className="rounded-md bg-green-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-green-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                          onClick={() => {
+                            confirmar(1);
+                          }}
+                        >
                           Aprobar
                         </button>
-                        <button className="ml-3 rounded-md bg-red-500 px-2.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400">
+                        <button
+                          className="ml-3 rounded-md bg-red-500 px-2.5 py-1 text-sm font-semibold text-white shadow-sm hover:bg-red-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-400"
+                          onClick={() => {
+                            confirmar(0);
+                          }}
+                        >
                           Rechazar
                         </button>
                       </div>

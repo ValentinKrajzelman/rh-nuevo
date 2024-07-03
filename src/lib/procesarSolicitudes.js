@@ -14,7 +14,7 @@ const procesarSolicitudes = (solicitudes, personal) => {
       return dateString.includes(mesAct.mes) && dateString.includes(mesAct.ano);
     });
     let empleado = personal.find((aux)=>{return aux.id == solicitud.id_usuario})
-    console.log("asdf", empleado)
+    // console.log("asdf", empleado)
     return {
       ...solicitud,
       ...empleado,
