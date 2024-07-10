@@ -123,7 +123,6 @@ const VacacionesSemana = (solicitudes) => {
   const sector = async () => {
     userSolicitudes &&
       (await fetchOneSector(userSolicitudes.id_sector).then((res) => {
-        // console.log(res.data);
         setSectorUser(res.data[0]);
       }));
   };
@@ -137,6 +136,7 @@ const VacacionesSemana = (solicitudes) => {
       mensaje: "",
       fecha_inicio: new Date((''+value[0]).substring(0, 16)+" 00:00:00 GMT-0000 (Argentina Standard Time)"),
       fecha_fin: new Date((''+value[1]).substring(0, 16)+" 23:59:59 GMT-0000 (Argentina Standard Time)"),
+      dias: Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24))
     };
     estado.estado &&
       (await fetchSolicitudesPost(nueSol).then((res) => {

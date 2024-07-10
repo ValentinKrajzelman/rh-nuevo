@@ -17,20 +17,21 @@ const Modal = ({
   const [texto, setTexto] = useState("");
 
   useEffect(() => {
-    // console.log(solicitudModal)
     solicitudModal && setTexto(solicitudModal.mensaje);
   }, [solicitudModal]);
 
   const confirmar = (estado) => {
     let aux = 0;
-    if (responsable.id_sector == solicitudModal.id_sector) aux += 0.25;
-    if (responsable.rh) aux += 0.75;
-    const solicitudNueva = { ...solicitudModal, estado: aux };
-    console.log(solicitudNueva)
-    
-    // fetchSolicitudesUpdate(solicitudNueva);
+    let solicitudNueva;
+    if (estado) {
+      if (responsable.id_sector == solicitudModal.id_sector) aux += 0.25;
+      if (responsable.rh) aux += 0.75;
+      solicitudNueva = { ...solicitudModal, estado: aux, mensaje: texto };
+    } else {
+      solicitudNueva = { ...solicitudModal, estado: -1, mensaje: texto };
+    }
+    fetchSolicitudesUpdate(solicitudNueva);
   };
-
 
   return (
     <Transition.Root show={visibilidad} as={Fragment}>
@@ -86,7 +87,7 @@ const Modal = ({
                             (solicitudModal.estado == 0.25 && "Pendiente RH") ||
                             (solicitudModal.estado == 0.75 &&
                               "Pendiente Ger") ||
-                            (solicitudModal.estado == 1 && "Aprovada") ||
+                            (solicitudModal.estado == 1 && "Aprobada") ||
                             (solicitudModal.estado < 0 && "Rechazada")}
                         </dd>
                       </div>

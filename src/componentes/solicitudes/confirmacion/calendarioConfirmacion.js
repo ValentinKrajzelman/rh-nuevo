@@ -164,7 +164,8 @@ export default function CalendarioConfirmacion({ responsable }) {
                     (solicitudes &&
                       solicitudes.filter((solicitud) => {
                         return (
-                          solicitud.mesInicio == mes || solicitud.mesFin == mes
+                          (solicitud.mesInicio == mes || solicitud.mesFin == mes) && solicitud.estado != -1
+
                         );
                       }).length + 1) +
                     ", minmax(2.5rem,2.5rem))",
@@ -174,7 +175,8 @@ export default function CalendarioConfirmacion({ responsable }) {
                   solicitudes
                     .filter((solicitud) => {
                       return (
-                        solicitud.mesInicio == mes || solicitud.mesFin == mes
+                        (solicitud.mesInicio == mes || solicitud.mesFin == mes) && solicitud.estado != -1
+
                       );
                     })
                     .map((solicitud, index) => {
@@ -217,7 +219,7 @@ export default function CalendarioConfirmacion({ responsable }) {
                     (solicitudes &&
                       solicitudes.filter((solicitud) => {
                         return (
-                          solicitud.mesInicio == mes || solicitud.mesFin == mes
+                          (solicitud.mesInicio == mes || solicitud.mesFin == mes) && solicitud.estado != -1
                         );
                       }).length + 1) +
                     ", minmax(2.5rem,2.5rem))",
@@ -228,7 +230,7 @@ export default function CalendarioConfirmacion({ responsable }) {
                   solicitudes
                     .filter((solicitud) => {
                       return (
-                        solicitud.mesInicio == mes || solicitud.mesFin == mes
+                        (solicitud.mesInicio == mes || solicitud.mesFin == mes) && solicitud.estado != -1
                       );
                     })
                     .map((solicitud, index) => {

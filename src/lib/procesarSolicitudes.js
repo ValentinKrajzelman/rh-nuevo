@@ -19,6 +19,7 @@ const procesarSolicitudes = (solicitudes, personal) => {
       ...solicitud,
       ...empleado,
       mesInicio,
+      id:solicitud.id,
       diaInicio: currentDateInicio.getDate(),
       mesFin,
       diaFin: currentDateFin.getDate(),
