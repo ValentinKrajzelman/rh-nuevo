@@ -58,6 +58,7 @@ export default function CalendarioConfirmacion({ responsable }) {
   };
 
   const aModal = (soli) => {
+    console.log('wtf')
     setSolicitudModal(soli);
     setVisibilidad(true);
   };
@@ -87,7 +88,7 @@ export default function CalendarioConfirmacion({ responsable }) {
         responsable={responsable}
       />
       {/* barra de arriba de las semanas */}
-      <header className="flex flex-none items-center justify-between border-b border-gray-200 px-6 py-4">
+      <header className="flex items-center md:justify-between border-b border-gray-200 px-6 py-4">
         <h1 className="text-base flex font-semibold leading-6 text-gray-900">
           <select
             defaultValue={mes}
@@ -122,7 +123,7 @@ export default function CalendarioConfirmacion({ responsable }) {
         </h1>
       </header>
 
-      <div className="isolate flex flex-auto flex-col overflow-auto bg-white">
+      <div className="hidden md:flex isolate flex-auto flex-col overflow-auto bg-white">
         <div
           style={{ width: "165%" }}
           className="flex max-w-full flex-none flex-col sm:max-w-none md:max-w-full"

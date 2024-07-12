@@ -58,9 +58,9 @@ const Solicitudes = () => {
         solicitudModal={solicitudModal}
         setVisibilidad={setVisibilidad}
       />
-      <div className="w-[60rem]">
-        <div className="flex items-end">
-          <div className="w-[10rem]">
+      <div className="md:w-[60rem]">
+        <div className="flex items-end py-[2.5rem]">
+          <div className=" w-[10rem]">
             <label
               htmlFor="location"
               className="block text-sm font-medium leading-6 text-gray-900"

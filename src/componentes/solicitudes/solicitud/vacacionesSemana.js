@@ -12,12 +12,12 @@ import {
   fetchSolicitudesPost,
   fetchSolicitudesUserPeriodoCorriente,
 } from "../../../api/solicitudesSolicitudes";
+import { fetchUpdateUser } from "../../../api/solicitudesUser";
 import { fetchOneSector } from "../../../api/solicitudesSector";
 
 import inicioDeSemana from "../../../lib/inicioDeSemana";
 import cantidadDias from "../../../lib/cantidadDias";
 import vacacionesLey from "../../../lib/vacacionesLey";
-
 
 const currentDate = new Date();
 const currentYear = currentDate.getFullYear();
@@ -70,10 +70,11 @@ const VacacionesSemana = (solicitudes) => {
   useEffect(() => {
     if (!value) {
     } else if (
-      Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24)) % 7 == 0 &&
-      inicioDeSemana(feriados, value[0])
+      (Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24)) % 7 == 0 &&
+        inicioDeSemana(feriados, value[0])) ||
+      responsable
     ) {
-      console.log((''+value[0]));
+      console.log("" + value[0]);
       setEstado({
         estado: true,
         mensaje: (
@@ -134,70 +135,89 @@ const VacacionesSemana = (solicitudes) => {
       id_sector: userSolicitudes.id_sector,
       tipo: "vacaciones",
       mensaje: "",
-      fecha_inicio: new Date((''+value[0]).substring(0, 16)+" 00:00:00 GMT-0000 (Argentina Standard Time)"),
-      fecha_fin: new Date((''+value[1]).substring(0, 16)+" 23:59:59 GMT-0000 (Argentina Standard Time)"),
-      dias: Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24))
+      fecha_inicio: new Date(
+        ("" + value[0]).substring(0, 16) +
+          " 00:00:00 GMT-0000 (Argentina Standard Time)"
+      ),
+      fecha_fin: new Date(
+        ("" + value[1]).substring(0, 16) +
+          " 23:59:59 GMT-0000 (Argentina Standard Time)"
+      ),
+      dias: Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24)),
+      cant_dias: responsable
+        ? Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24))
+        : Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24)) - 2,
     };
     estado.estado &&
       (await fetchSolicitudesPost(nueSol).then((res) => {
-        console.log(res.data);
+        console.log(res);
+        fetchUpdateUser({
+          id_usuario: nueSol.id_usuario,
+          cant_dias: userSolicitudes.dias - nueSol.cant_dias,
+        });
       }));
   };
 
   return (
-    <div className="border-2 rounded-xl p-5 m-5">
-      <div className="flex justify-between">
+    <div className="border-2 rounded-xl md:p-5 md:m-5">
+      <div className="flex flex-col md:flex-row pl-5 md:pl-0 md:items-center md:justify-between">
         {userSolicitudes && (
           <div className="flex flex-col">
-            <div className="mb-10">
-              <div className="text-2xl font-bold">Dias disponibles</div>
-              <div className="text-3xl text-green-500">
-                {" "}
-                {userSolicitudes.dias} Dias
+            <div>
+              <div className="mb-10">
+                <div className="text-2xl font-bold">Dias disponibles</div>
+                <div className="text-3xl text-green-500">
+                  {" "}
+                  {userSolicitudes.dias} Dias
+                </div>
+                <div className="text-sm text-gray-600">
+                  ({userSolicitudes.dias / 5}) semanas
+                </div>
               </div>
-              <div className="text-sm text-gray-600">
-                ({userSolicitudes.dias / 5}) semanas
-              </div>
-            </div>
-            <div className="mb-5">
-              <div className="font-bold">Dias usados</div>
-              <div className="text-lg text-gray-600">
-                {(solicitudesCor[0] && cantidadDias(solicitudesCor)) || 0} dias
-              </div>
-              <div className="text-sm text-gray-600">
-                ({(solicitudesCor[0] && cantidadDias(solicitudesCor) / 7) || 0})
-                semanas
-              </div>
-            </div>
-            <div className="mb-5">
-              <div className="font-bold">Fecha de ingreso</div>
-              <div className="text-lg text-gray-600">
-                {userSolicitudes.fecha_ingreso.substring(0, 10)}
-              </div>
-              <div className="text-lg text-gray-600">
-                (
-                {(
-                  "<" +
-                  ((Date.now() - Date.parse(userSolicitudes.fecha_ingreso)) /
-                    (1000 * 60 * 60 * 24 * 365) +
-                    1)
-                ).substring(0, 2)}{" "}
-                años)
+              <div className="mb-5">
+                <div className="font-bold">Dias usados</div>
+                <div className="text-lg text-gray-600">
+                  {(solicitudesCor[0] && cantidadDias(solicitudesCor)) || 0}{" "}
+                  dias
+                </div>
+                <div className="text-sm text-gray-600">
+                  (
+                  {(solicitudesCor[0] && cantidadDias(solicitudesCor) / 7) || 0}
+                  ) semanas
+                </div>
               </div>
             </div>
-            <div className="mb-5">
-              <div className="font-bold">Vacaciones por ley</div>
-              {vacacionesLey(
-                (Date.now() - Date.parse(userSolicitudes.fecha_ingreso)) /
-                  (1000 * 60 * 60 * 24)
-              )}{" "}
+            <div>
+              <div className="mb-5">
+                <div className="font-bold">Fecha de ingreso</div>
+                <div className="text-lg text-gray-600">
+                  {userSolicitudes.fecha_ingreso.substring(0, 10)}
+                </div>
+                <div className="text-lg text-gray-600">
+                  (
+                  {(
+                    "<" +
+                    ((Date.now() - Date.parse(userSolicitudes.fecha_ingreso)) /
+                      (1000 * 60 * 60 * 24 * 365) +
+                      1)
+                  ).substring(0, 2)}{" "}
+                  años)
+                </div>
+              </div>
+              <div className="mb-5">
+                <div className="font-bold">Vacaciones por ley</div>
+                {vacacionesLey(
+                  (Date.now() - Date.parse(userSolicitudes.fecha_ingreso)) /
+                    (1000 * 60 * 60 * 24)
+                )}{" "}
+              </div>
             </div>
           </div>
         )}
         <div className="flex flex-col">
           {" "}
-          <div className="text-sm w-[20rem]">{estado.mensaje}</div>
-          <div>
+          <div className="text-sm md:w-[20rem]">{estado.mensaje}</div>
+          <div className="pb-[20rem] pl-[6rem] md:pl-0">
             <DateRangePicker
               onChange={onChange}
               value={value}
@@ -211,7 +231,7 @@ const VacacionesSemana = (solicitudes) => {
             />
           </div>
         </div>
-        <div className="p-8 border-l-2 flex flex-col items-center justify-between">
+        <div className="p-8 md:border-l-2 flex flex-col md:items-center md:justify-between">
           <div>
             <div className="mb-5">
               <div className="font-bold">Responsable (sector)</div>

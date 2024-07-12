@@ -33,15 +33,15 @@ const Confirmacion = () => {
     );
   }, [location]);
   return (
-    <div className="flex flex-col items-center w-full mt-5">
+    <div className="flex flex-col items-start md:items-center w-full pl-5 mt-5">
       {/* <ModalConfirmacion
         visibilidad={visibilidad}
         solicitudModal={solicitudModal}
         setVisibilidad={setVisibilidad}
         responsable={responsable}
       /> */}
-      <div className="w-[60rem]">
-        <div className="w-[10rem]">
+      <div className="w-full md:w-[60rem]">
+        <div className="w-[10rem] py-[2.5rem]">
           <label
             htmlFor="location"
             className="block text-sm font-medium leading-6 text-gray-900"
