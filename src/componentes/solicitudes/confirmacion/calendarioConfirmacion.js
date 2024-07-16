@@ -11,7 +11,7 @@ export default function CalendarioConfirmacion({ responsable }) {
   const currentDate = new Date();
   const dateString = currentDate.toDateString();
 
-  const [sectores, setSectores] = useState();
+  // const [sectores, setSectores] = useState();
   const [sectorActual, setSectorActual] = useState();     
   const [sectorFiltrado, setSectorFiltrado] = useState(); 
   const [solicitudes, setSolicitudes] = useState();       
@@ -67,9 +67,9 @@ export default function CalendarioConfirmacion({ responsable }) {
     popularSectores();
   }, [responsable]);
 
-  useEffect(() => {
-    setSectorActual(sectores && sectores[0]);
-  }, [sectores]);
+  // useEffect(() => {
+  //   setSectorActual(sectores && sectores[0]);
+  // }, [sectores]);
 
   useEffect(() => {
     popularPersonal();

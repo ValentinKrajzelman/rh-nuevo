@@ -214,13 +214,14 @@ const VacacionesSemana = (solicitudes) => {
             </div>
           </div>
         )}
-        <div className="flex flex-col">
+        <div className="flex flex-col items-center">
           {" "}
           <div className="text-sm md:w-[20rem]">{estado.mensaje}</div>
-          <div className="pb-[20rem] pl-[6rem] md:pl-0">
+          <div className="pb-[20rem] md:pl-0">
             <DateRangePicker
               onChange={onChange}
               value={value}
+              className=""
               minDate={new Date()}
               maxDate={nextYearDate}
               showWeekNumbers={true}
