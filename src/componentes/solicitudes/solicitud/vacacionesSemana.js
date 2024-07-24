@@ -68,11 +68,15 @@ const VacacionesSemana = (solicitudes) => {
   }, [userSolicitudes]);
 
   useEffect(() => {
-    if (!value) {
+    if (!value || !userSolicitudes) {
     } else if (
-      (Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24)) % 7 == 0 &&
+      ((Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24)) % 7 == 0 &&
         inicioDeSemana(feriados, value[0])) ||
-      responsable
+        responsable) &&
+      !(
+        Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24)) >
+        (responsable ? userSolicitudes.dias : userSolicitudes.dias + 2)
+      )
     ) {
       console.log("" + value[0]);
       setEstado({
@@ -88,10 +92,7 @@ const VacacionesSemana = (solicitudes) => {
           </div>
         ),
       });
-    } else if (
-      !(Math.round((value[1] - value[0]) / (1000 * 60 * 60 * 24)) % 7 == 0) ||
-      !inicioDeSemana(feriados, value[0])
-    ) {
+    } else {
       setEstado({
         estado: false,
         mensaje: (
@@ -214,7 +215,7 @@ const VacacionesSemana = (solicitudes) => {
             </div>
           </div>
         )}
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center md:items-start">
           {" "}
           <div className="text-sm md:w-[20rem]">{estado.mensaje}</div>
           <div className="pb-[20rem] md:pl-0">

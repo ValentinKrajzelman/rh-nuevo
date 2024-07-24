@@ -58,7 +58,6 @@ export default function CalendarioConfirmacion({ responsable }) {
   };
 
   const aModal = (soli) => {
-    console.log('wtf')
     setSolicitudModal(soli);
     setVisibilidad(true);
   };

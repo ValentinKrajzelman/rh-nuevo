@@ -59,6 +59,14 @@ const Modal = ({
             <div className="flex  items-end justify-center p-4 text-center sm:items-center sm:p-28">
               <Dialog.Panel className="relative transform rounded-lg bg-white px-4 pb-4 pt-5 text-left shadow-xl transition-all sm:my-8 sm:w-[50rem] sm:p-6">
                 <div>
+                <div
+                  className="text-3xl absolute top-0 right-3 z-[70]"
+                  onClick={() => {
+                    setVisibilidad(false);
+                  }}
+                >
+                  x
+                </div>
                   <div className="px-4 sm:px-0">
                     <h3 className="text-base font-semibold leading-7 text-gray-900">
                       Informacion pedido

@@ -89,10 +89,12 @@ const Inicio = () => {
     popularCultura();
   }, []);
 
-  console.log(cultura);
 
   return (
     <div className="flex flex-col p-4 px-8 w-full">
+      <div>
+        <img></img>
+      </div>
       <div className="flex justify-center text-3xl bold mb-14">
         <img className="w-[20rem]" src="/rh-nuevo/banner-mercomax.png"></img>
       </div>
@@ -124,7 +126,7 @@ const Inicio = () => {
                 return (
                   <div
                     key={anuncio.id.toString()}
-                    className="w-[95%] bg-[#FFFFFF] border-2 relative border-black m-2 rounded-3xl p-2 "
+                    className="w-[95%] bg-[#9FE96E] border-2 relative border-black m-2 rounded-3xl p-2 "
                   >
                     <div className="flex justify-between w-full">
                       <div className="flex flex-col pr-5">
