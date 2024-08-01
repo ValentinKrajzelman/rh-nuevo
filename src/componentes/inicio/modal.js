@@ -28,7 +28,8 @@ const Modal = ({ noticias, deleteNoticia, RH }) => {
                 key={"categoria " + index}
                 className="flex flex-col h-fit justify-center items-center"
               >
-                <div className="text-3xl bold py-5">{categoria.categoria}</div>
+            
+                <div className="relative text-3xl bold px-5 py-2 font-bold text-white bg-[#A4A7F6] border m-10 border-black rounded-full">{categoria.categoria} <div className="absolute z-[-1] left-1 top-[0.40rem] w-full h-full bg-[#606283] border border-black rounded-3xl"></div></div>
                 <div className="flex flex-wrap items-start justify-center">
                   {noticias
                     .filter((noticia) => {

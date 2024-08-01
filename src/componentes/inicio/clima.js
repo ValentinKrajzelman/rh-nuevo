@@ -24,7 +24,7 @@ const Clima = ({ clima }) => {
   };
 
   return (
-    <div>
+    <div className="">
       {!clima[0] ? (
         <div>Cargando...</div>
       ) : (

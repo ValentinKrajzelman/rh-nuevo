@@ -4,12 +4,14 @@ import Modal from "./modal";
 import Clima from "./clima";
 import { fetchCurrentClima } from "../../api/clima";
 import { fetchCurrentNoticias, fetchDeleteNoticias } from "../../api/noticias";
-import { fetchCurrentNovedades, fetchDeleteNovedades } from "../../api/novedades";
+import {
+  fetchCurrentNovedades,
+  fetchDeleteNovedades,
+} from "../../api/novedades";
 import Cultura from "./noticias";
+// import textura1 from "/textura1.jpg"
 
 import axios from "axios";
-
-// import Modal from "../components/modal";
 
 const Inicio = () => {
   const [noticias, setNoticias] = useState([]);
@@ -77,7 +79,6 @@ const Inicio = () => {
     await axios
       .get("https://mmxapp2.mercomaxsa.com.ar/node/cultura/")
       .then((res) => {
-        // console.log("esto",res);
         setCultura(res.data.results);
       });
   };
@@ -89,45 +90,49 @@ const Inicio = () => {
     popularCultura();
   }, []);
 
-
   return (
     <div className="flex flex-col p-4 px-8 w-full">
       {/* aca va el fondo va a ser animado con las imagenes textura que tenes en public */}
-      <div>
-        <img></img>
-      </div>
+      {/* <div> */}
+        {/* <img className="fixed w-screen w-s h-screen z-[-10] top-0 left-0" src="/rh-nuevo/textura1.jpg"></img> */}
+      {/* </div> */}
       <div className="flex justify-center text-3xl bold mb-14">
         <img className="w-[20rem]" src="/rh-nuevo/banner-mercomax.png"></img>
       </div>
       {/* primera fila */}
       <div className="flex flex-col md:flex-row w-full md:h-[15rem] justify-center items-center">
-        <div className="w-[15rem] md:w-[28rem] bg-[#A4A7F6] flex flex-col items-center border  m-6 border-black rounded-3xl h-full">
-          {/* <div className="flex text-2xl justify-center items-center align-middle grow"> */}
-          <div className="text-2xl p-3 font-extrabold text-white md:h-12">CLIMA</div>
-          <div className="p-3">
+        <div className="hidden relative w-[15rem] md:w-[28rem] bg-[#A4A7F6] md:flex flex-col items-center border  m-6 border-black rounded-3xl h-full">
+          <div className="text-2xl p-3 font-bold text-white md:h-12">CLIMA</div>
+          <div className="p-3 w-full ">
             <Clima clima={clima} />
           </div>
-          {/* </div> */}
+          <div className="absolute z-[-1] left-2 top-2 w-full h-full bg-[#606283] border border-black rounded-3xl"></div>
         </div>
-        <div className="w-[15rem] md:w-[28rem] flex flex-col border bg-[#A4A7F6] items-center m-6 ml-8 border-black rounded-3xl h-full">
-          <div className="text-2xl p-3 bold font-extrabold text-white md:h-12">Noticias - Sec de cultura</div>
-          {/* <div className="w-full grow m-2 ">a</div> */}
-          <div className="md:h-[10rem] p-3 ">
+        <div className="hidden relative w-[15rem] md:w-[28rem] md:flex flex-col border bg-[#A4A7F6] items-center m-6 ml-8 border-black rounded-3xl h-full">
+          <div className="text-2xl p-3 font-bold text-white md:h-12">
+            Noticias
+          </div>
+
+          <div className="md:h-[10rem] w-full p-3 ">
             <Cultura CulturaArray={cultura} />
           </div>
+          <div className="absolute z-[-1] left-2 top-2 w-full h-full bg-[#606283] border border-black rounded-3xl"></div>
         </div>
       </div>
       {/* segunda fila */}
-      <div className="flex flex-col md:flex-row w-full md:h-[15rem] justify-center items-center mt-14">
-        <div className="w-[15rem] md:w-[28rem] flex flex-col m-6 border  items-center border-black rounded-3xl h-full">
-          <div className="text-2xl p-3 bold h-14">Anuncios</div>
-          <div className="flex flex-col pb-2 w-full items-center grow">
-            <div className="flex noScrollbar flex-col items-center border  overflow-y-scroll border-black bg-[#FFF9BA] h-[10rem] w-[95%] grow rounded-3xl">
+      <div className="flex flex-col md:flex-row w-full md:h-[15.6rem] justify-center items-center mt-14">
+        <div className="relative w-[22rem] md:w-[28rem] flex flex-col bg-[#A4A7F6] m-6 border  items-center border-black rounded-3xl h-full">
+          <div className="text-2xl p-3 bold font-bold text-white h-14">
+            Beneficios
+          </div>
+          <div className="absolute z-[-1] left-2 top-2 w-full h-full bg-[#606283] border border-black rounded-3xl"></div>
+          <div className="flex flex-col p-2 w-full items-center grow">
+            <div className="flex noScrollbar flex-col items-center border  overflow-y-scroll border-black bg-[#9FE96E] h-[10rem] grow rounded-3xl">
               {novedades.map((anuncio) => {
                 return (
                   <div
                     key={anuncio.id.toString()}
-                    className="w-[95%] bg-[#9FE96E] border  relative border-black m-2 rounded-3xl p-2 "
+                    className=" bg-[#FFFFFF] border  relative border-black m-2 rounded-3xl p-2 "
                   >
                     <div className="flex justify-between w-full">
                       <div className="flex flex-col pr-5">
@@ -162,19 +167,17 @@ const Inicio = () => {
             </div>
           </div>
         </div>
-        <div className="hidden w-[15rem] md:w-[28rem] md:flex flex-col m-6 border-black rounded-3xl">
+        <div className="hidden relative w-[15rem] md:w-[28rem] md:flex flex-col m-6 border bg-black border-black rounded-3xl">
           <video
             className="rounded-3xl"
             src="https://mmxapp2.mercomaxsa.com.ar/files/Mercomax-Reglamento.webm"
             controls
             style={{ width: "443px", height: "250px" }}
           ></video>
+          <div className="absolute z-[-1] left-2 top-2 w-full h-full bg-[#606283] border border-black rounded-3xl"></div>
         </div>
       </div>
       <div>
-        {/* <div className="flex justify-center text-3xl bold my-10">
-            Notificaciones
-          </div> */}
         <div className="flex justify-center space-x-3">
           <Modal noticias={noticias} deleteNoticia={borrarNoticia} RH={RH} />
         </div>

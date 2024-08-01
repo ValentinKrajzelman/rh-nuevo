@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 const Cultura = ({ CulturaArray }) => {
   return (
-    <div className="overflow-y-scroll noScrollbar border  rounded-3xl border-black bg-[#FFF9BA] h-[10.5rem] w-full p-3">
+    <div className="overflow-y-scroll noScrollbar border  rounded-3xl border-black bg-[#9FE96E] h-[10.5rem] w-full p-3">
       {!CulturaArray ? (
         <div>Cargando...</div>
       ) : (
