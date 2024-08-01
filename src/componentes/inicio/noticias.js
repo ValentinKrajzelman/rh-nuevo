@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 const Cultura = ({ CulturaArray }) => {
   return (
-    <div className="overflow-y-scroll noScrollbar border-2 rounded-3xl border-black bg-[#FFF9BA] h-[10.5rem] w-full p-3">
+    <div className="overflow-y-scroll noScrollbar border  rounded-3xl border-black bg-[#FFF9BA] h-[10.5rem] w-full p-3">
       {!CulturaArray ? (
         <div>Cargando...</div>
       ) : (
@@ -10,7 +10,7 @@ const Cultura = ({ CulturaArray }) => {
           return (
             <div
               key={itemCultura.id}
-              className="flex justify-between mb-5 border-2 rounded-3xl bg-[#ffffff] border-black md:h-[10rem] p-[1rem] overflow-hidden"
+              className="flex justify-between mb-5 border  rounded-3xl bg-[#ffffff] border-black md:h-[10rem] p-[1rem] overflow-hidden"
             >
               <div className="flex flex-col justify-between w-[12rem]">
                 <div className="text-md mb-2 font-bold">

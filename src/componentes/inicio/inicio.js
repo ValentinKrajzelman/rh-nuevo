@@ -92,6 +92,7 @@ const Inicio = () => {
 
   return (
     <div className="flex flex-col p-4 px-8 w-full">
+      {/* aca va el fondo va a ser animado con las imagenes textura que tenes en public */}
       <div>
         <img></img>
       </div>
@@ -100,16 +101,16 @@ const Inicio = () => {
       </div>
       {/* primera fila */}
       <div className="flex flex-col md:flex-row w-full md:h-[15rem] justify-center items-center">
-        <div className="w-[15rem] md:w-[28rem] flex flex-col border-2 m-6 border-black rounded-3xl h-full">
+        <div className="w-[15rem] md:w-[28rem] bg-[#A4A7F6] flex flex-col items-center border  m-6 border-black rounded-3xl h-full">
           {/* <div className="flex text-2xl justify-center items-center align-middle grow"> */}
-          <div className="text-2xl p-3 bold md:h-12">Clima</div>
+          <div className="text-2xl p-3 font-extrabold text-white md:h-12">CLIMA</div>
           <div className="p-3">
             <Clima clima={clima} />
           </div>
           {/* </div> */}
         </div>
-        <div className="w-[15rem] md:w-[28rem] flex flex-col border-2 m-6 ml-8 border-black rounded-3xl h-full">
-          <div className="text-2xl p-3 bold md:h-12">Noticias - Sec de cultura</div>
+        <div className="w-[15rem] md:w-[28rem] flex flex-col border bg-[#A4A7F6] items-center m-6 ml-8 border-black rounded-3xl h-full">
+          <div className="text-2xl p-3 bold font-extrabold text-white md:h-12">Noticias - Sec de cultura</div>
           {/* <div className="w-full grow m-2 ">a</div> */}
           <div className="md:h-[10rem] p-3 ">
             <Cultura CulturaArray={cultura} />
@@ -118,15 +119,15 @@ const Inicio = () => {
       </div>
       {/* segunda fila */}
       <div className="flex flex-col md:flex-row w-full md:h-[15rem] justify-center items-center mt-14">
-        <div className="w-[15rem] md:w-[28rem] flex flex-col m-6 border-2  border-black rounded-3xl h-full">
+        <div className="w-[15rem] md:w-[28rem] flex flex-col m-6 border  items-center border-black rounded-3xl h-full">
           <div className="text-2xl p-3 bold h-14">Anuncios</div>
           <div className="flex flex-col pb-2 w-full items-center grow">
-            <div className="flex noScrollbar flex-col items-center border-2 overflow-y-scroll border-black bg-[#FFF9BA] h-[10rem] w-[95%] grow rounded-3xl">
+            <div className="flex noScrollbar flex-col items-center border  overflow-y-scroll border-black bg-[#FFF9BA] h-[10rem] w-[95%] grow rounded-3xl">
               {novedades.map((anuncio) => {
                 return (
                   <div
                     key={anuncio.id.toString()}
-                    className="w-[95%] bg-[#9FE96E] border-2 relative border-black m-2 rounded-3xl p-2 "
+                    className="w-[95%] bg-[#9FE96E] border  relative border-black m-2 rounded-3xl p-2 "
                   >
                     <div className="flex justify-between w-full">
                       <div className="flex flex-col pr-5">

@@ -29,7 +29,7 @@ const Clima = ({ clima }) => {
         <div>Cargando...</div>
       ) : (
         <div className="relative">
-          <div className="flex justify-between h-[10rem] py-5 px-10 border-2 border-black rounded-3xl bg-[#9FE96E]">
+          <div className="flex justify-between h-[10rem] py-5 px-10 border  border-black rounded-3xl bg-[#9FE96E]">
             <div className="flex flex-col justify-center items-center">
               <img
                 className="w-[5rem] bg-slate-600 rounded-3xl"
